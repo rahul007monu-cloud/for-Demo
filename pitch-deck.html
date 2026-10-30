@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVM School – डिजिटल प्रस्ताव</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Noto Sans Devanagari", "Segoe UI", Arial, sans-serif; background: #0f172a; color: #0f172a; }
+  .slide { display: none; min-height: 100vh; padding: 6vh 8vw; background: #fff; flex-direction: column; justify-content: center; }
+  .slide.active { display: flex; }
+  .slide.dark { background: linear-gradient(135deg, #1e3a8a, #0f766e); color: #fff; }
+  h1 { font-size: clamp(2rem, 5vw, 3.6rem); margin-bottom: 1rem; line-height: 1.2; }
+  h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); margin-bottom: 1.5rem; color: #1e3a8a; }
+  .dark h2 { color: #fff; }
+  p, li { font-size: clamp(1rem, 1.8vw, 1.35rem); line-height: 1.7; }
+  ul { padding-left: 1.4rem; }
+  li { margin-bottom: .6rem; }
+  .tag { display: inline-block; background: #fbbf24; color: #1e293b; padding: .3rem .9rem; border-radius: 999px; font-weight: 700; margin-bottom: 1.2rem; font-size: 1rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+  .card { border: 2px solid #e2e8f0; border-radius: 14px; padding: 1.3rem; }
+  .card h3 { color: #0f766e; margin-bottom: .5rem; font-size: 1.25rem; }
+  .card p { font-size: 1rem; }
+  table { width: 100%; border-collapse: collapse; font-size: clamp(.95rem, 1.6vw, 1.15rem); }
+  th, td { border: 1px solid #cbd5e1; padding: .7rem; text-align: left; }
+  th { background: #1e3a8a; color: #fff; }
+  tr:nth-child(even) td { background: #f1f5f9; }
+  .big { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; color: #0f766e; }
+  .nav { position: fixed; bottom: 18px; right: 18px; display: flex; gap: 8px; align-items: center; z-index: 10; }
+  .nav button { background: #1e3a8a; color: #fff; border: 0; padding: .6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; }
+  .nav span { background: #fff; padding: .45rem .8rem; border-radius: 8px; font-weight: 700; }
+  .wa { background: #dcfce7; border-left: 5px solid #16a34a; padding: 1rem 1.2rem; border-radius: 10px; max-width: 520px; font-size: 1.05rem; line-height: 1.6; }
+  .muted { color: #64748b; font-size: .95rem; }
+  @media print {
+    body { background: #fff; }
+    .slide { display: flex !important; page-break-after: always; min-height: 100vh; }
+    .nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide dark active">
+  <span class="tag">प्रस्ताव • Digital School</span>
+  <h1>JVM Senior Secondary School<br>को Digital बनाने का प्लान</h1>
+  <p>फीस, एडमिशन, अटेंडेंस और पेरेंट्स से बातचीत – सब कुछ WhatsApp और मोबाइल पर, अपने आप।</p>
+  <p class="muted" style="color:#cbd5e1;margin-top:2rem">श्री राजेन्द्र शर्मा जी एवं श्रीमती मंजू शर्मा जी के लिए • Jhotwara, Jaipur</p>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <h2>आपके स्कूल की ताकत</h2>
+  <ul>
+    <li><b>1993 से</b> Jhotwara में भरोसे का नाम – 30+ साल का अनुभव</li>
+    <li>RBSE पाठ्यक्रम, सरकार से मान्यता प्राप्त</li>
+    <li>पेरेंट्स और समाज के साथ मज़बूत रिश्ता</li>
+  </ul>
+  <p style="margin-top:1.5rem"><b>पर आज के पेरेंट्स स्कूल Google और WhatsApp पर देखकर चुनते हैं।</b> नए स्कूल ऑनलाइन ज़्यादा दिखते हैं – भले ही उनके पास आपका अनुभव न हो।</p>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <h2>आज की आम परेशानियाँ</h2>
+  <div class="grid">
+    <div class="card"><h3>💰 फीस देर से आती है</h3><p>हर महीने फ़ोन करके याद दिलाना, रजिस्टर में हिसाब, पेंडिंग का पता नहीं।</p></div>
+    <div class="card"><h3>📞 एडमिशन enquiry छूट जाती है</h3><p>फ़ोन पर आई enquiry डायरी में रह जाती है, follow-up नहीं होता।</p></div>
+    <div class="card"><h3>📋 ऑफिस का काम ज़्यादा</h3><p>रसीद, TC, सर्टिफिकेट, रिपोर्ट कार्ड – सब हाथ से।</p></div>
+    <div class="card"><h3>📢 पेरेंट्स तक सूचना</h3><p>छुट्टी, PTM, होमवर्क – डायरी या बिखरे हुए WhatsApp ग्रुप।</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <h2>हमारा समाधान</h2>
+  <div class="grid">
+    <div class="card"><h3>1. फीस सिस्टम</h3><p>Online UPI पेमेंट, WhatsApp पर ऑटो reminder, ऑटो रसीद, पेंडिंग डैशबोर्ड।</p></div>
+    <div class="card"><h3>2. एडमिशन सिस्टम</h3><p>वेबसाइट पर फॉर्म, हर enquiry को तुरंत WhatsApp reply और follow-up।</p></div>
+    <div class="card"><h3>3. अटेंडेंस अलर्ट</h3><p>टीचर मोबाइल से हाज़िरी लगाएँ, बच्चा absent हो तो पेरेंट को तुरंत मैसेज।</p></div>
+    <div class="card"><h3>4. रिज़ल्ट व रिपोर्ट कार्ड</h3><p>नंबर डालो, RBSE फॉर्मेट में PDF अपने आप तैयार।</p></div>
+    <div class="card"><h3>5. नई वेबसाइट + Google</h3><p>मोबाइल फ्रेंडली साइट, Google पर "school near me" में ऊपर।</p></div>
+    <div class="card"><h3>6. सर्टिफिकेट</h3><p>TC, Bonafide, Character Certificate – एक क्लिक में।</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <h2>पेरेंट को ऐसा मैसेज जाएगा</h2>
+  <div class="wa">
+    नमस्ते 🙏<br>
+    <b>आरव शर्मा (कक्षा 6)</b> की <b>नवंबर</b> माह की फीस <b>₹1,800</b> बाकी है।<br>
+    अंतिम तिथि: 10 नवंबर<br><br>
+    UPI से भुगतान करें: <u>pay.jvmschool.in/A123</u><br><br>
+    – JVM Senior Secondary School, Jhotwara<br>📞 +91 93142 96400
+  </div>
+  <p style="margin-top:1.5rem">भुगतान होते ही रसीद भी अपने आप WhatsApp पर चली जाएगी। <b>किसी को फ़ोन नहीं करना पड़ेगा।</b></p>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <h2>पहले और बाद में</h2>
+  <table>
+    <tr><th>काम</th><th>अभी</th><th>सिस्टम के बाद</th></tr>
+    <tr><td>फीस वसूली</td><td>फ़ोन, रजिस्टर, कैश</td><td>ऑटो reminder, UPI, ऑटो रसीद</td></tr>
+    <tr><td>एडमिशन enquiry</td><td>डायरी में नोट</td><td>लिस्ट + ऑटो WhatsApp follow-up</td></tr>
+    <tr><td>अटेंडेंस</td><td>रजिस्टर</td><td>मोबाइल ऐप + पेरेंट अलर्ट</td></tr>
+    <tr><td>रिपोर्ट कार्ड</td><td>हाथ से / Excel</td><td>PDF अपने आप</td></tr>
+    <tr><td>सूचना</td><td>डायरी</td><td>एक क्लिक में सब पेरेंट्स को</td></tr>
+    <tr><td>सर्टिफिकेट</td><td>टाइप करना</td><td>टेम्पलेट से तुरंत</td></tr>
+  </table>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <h2>आपको क्या फायदा</h2>
+  <div class="grid">
+    <div class="card"><div class="big">⏱️</div><h3>समय की बचत</h3><p>ऑफिस का दोहराने वाला काम काफ़ी हद तक अपने आप।</p></div>
+    <div class="card"><div class="big">💰</div><h3>फीस समय पर</h3><p>हर पेरेंट को नियमित reminder – कोई छूटेगा नहीं।</p></div>
+    <div class="card"><div class="big">📈</div><h3>ज़्यादा एडमिशन</h3><p>हर enquiry का follow-up, Google पर बेहतर दिखना।</p></div>
+    <div class="card"><div class="big">⭐</div><h3>Modern छवि</h3><p>पेरेंट्स को लगेगा स्कूल समय के साथ चल रहा है।</p></div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <h2>कैसे शुरू करें – छोटे कदम</h2>
+  <ul>
+    <li><b>चरण 1 (नवंबर):</b> फीस सिस्टम + WhatsApp reminder – <b>1 महीना ट्रायल</b></li>
+    <li><b>चरण 2 (दिसंबर):</b> नई वेबसाइट + एडमिशन फॉर्म + Google प्रोफाइल</li>
+    <li><b>चरण 3 (जनवरी):</b> अटेंडेंस, रिपोर्ट कार्ड, सर्टिफिकेट</li>
+  </ul>
+  <p style="margin-top:1.5rem">👉 जनवरी–मार्च के एडमिशन सीज़न से पहले पूरा सिस्टम तैयार।</p>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <h2>निवेश (अनुमानित)</h2>
+  <table>
+    <tr><th>पैकेज</th><th>क्या मिलेगा</th><th>कीमत</th></tr>
+    <tr><td>Basic</td><td>फीस सिस्टम + WhatsApp reminder</td><td>₹____ / महीना</td></tr>
+    <tr><td>Standard</td><td>Basic + वेबसाइट + एडमिशन + Google प्रोफाइल</td><td>₹____ सेटअप + ₹____ / महीना</td></tr>
+    <tr><td>Complete</td><td>Standard + अटेंडेंस + रिपोर्ट कार्ड + सर्टिफिकेट + ऐप</td><td>₹____ सेटअप + ₹____ / महीना</td></tr>
+  </table>
+  <p class="muted" style="margin-top:1rem">* पहला महीना ट्रायल। WhatsApp/SMS का सरकारी/प्लेटफ़ॉर्म चार्ज अलग, जैसा लागू हो।</p>
+</section>
+
+<!-- 10 -->
+<section class="slide dark">
+  <h1>धन्यवाद 🙏</h1>
+  <p>आज ही 1 महीने का ट्रायल शुरू करें।</p>
+  <p style="margin-top:2rem">नाम: ____________________<br>फ़ोन: ____________________<br>ईमेल: ____________________</p>
+</section>
+
+<div class="nav">
+  <button onclick="go(-1)">◀</button>
+  <span id="count">1</span>
+  <button onclick="go(1)">▶</button>
+  <button onclick="window.print()" title="PDF बनाएँ">🖨️</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let i = 0;
+  function show() {
+    slides.forEach((s, n) => s.classList.toggle('active', n === i));
+    document.getElementById('count').textContent = (i + 1) + ' / ' + slides.length;
+  }
+  function go(d) { i = Math.max(0, Math.min(slides.length - 1, i + d)); show(); }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') go(1);
+    if (e.key === 'ArrowLeft') go(-1);
+  });
+  let x0 = null;
+  document.addEventListener('touchstart', e => x0 = e.touches[0].clientX);
+  document.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+    x0 = null;
+  });
+  show();
+</script>
+</body>
+</html>

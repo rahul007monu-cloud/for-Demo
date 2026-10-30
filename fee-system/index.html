@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVM Fee Manager (Demo)</title>
+<style>
+  :root { --blue: #1e3a8a; --teal: #0f766e; --red: #dc2626; --green: #16a34a; --bg: #f1f5f9; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", "Noto Sans Devanagari", Arial, sans-serif; background: var(--bg); color: #1e293b; }
+  header { background: var(--blue); color: #fff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  header h1 { font-size: 1.2rem; }
+  header small { opacity: .8; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tabs button { background: rgba(255,255,255,.15); color: #fff; border: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+  .tabs button.on { background: #fff; color: var(--blue); }
+  main { max-width: 1200px; margin: 0 auto; padding: 20px; }
+  .view { display: none; } .view.on { display: block; }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+  .kpi { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+  .kpi span { color: #64748b; font-size: .9rem; }
+  .kpi b { display: block; font-size: 1.7rem; margin-top: 4px; }
+  .panel { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.05); margin-bottom: 20px; }
+  .panel h2 { font-size: 1.1rem; margin-bottom: 12px; color: var(--blue); }
+  .bar { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .bar label { width: 70px; font-weight: 600; }
+  .bar .track { flex: 1; background: #e2e8f0; border-radius: 6px; height: 22px; overflow: hidden; }
+  .bar .fill { background: var(--red); height: 100%; }
+  .bar .amt { width: 100px; text-align: right; font-weight: 600; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  input, select { padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  .btn { padding: 9px 14px; border: 0; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: .9rem; }
+  .b-blue { background: var(--blue); color: #fff; } .b-green { background: var(--green); color: #fff; }
+  .b-wa { background: #25d366; color: #fff; } .b-grey { background: #e2e8f0; color: #1e293b; }
+  .b-red { background: var(--red); color: #fff; }
+  .btn.sm { padding: 6px 10px; font-size: .82rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .93rem; }
+  th, td { padding: 10px 8px; border-bottom: 1px solid #e2e8f0; text-align: left; vertical-align: middle; }
+  th { background: #f8fafc; color: #475569; font-size: .82rem; text-transform: uppercase; }
+  .due { color: var(--red); font-weight: 700; } .paid { color: var(--green); font-weight: 700; }
+  .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tablewrap { overflow-x: auto; }
+  .modal { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+  .modal.on { display: flex; }
+  .box { background: #fff; border-radius: 14px; padding: 22px; width: 100%; max-width: 460px; max-height: 90vh; overflow: auto; }
+  .box h3 { margin-bottom: 14px; color: var(--blue); }
+  .box form { display: grid; gap: 10px; }
+  .box .end { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+  .receipt { border: 2px dashed #94a3b8; padding: 18px; border-radius: 10px; font-size: .95rem; line-height: 1.7; }
+  .receipt h4 { text-align: center; color: var(--blue); }
+  .note { background: #fef9c3; border-left: 4px solid #ca8a04; padding: 10px 14px; border-radius: 8px; font-size: .9rem; margin-bottom: 16px; }
+  .queue li { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #e2e8f0; gap: 8px; }
+  .queue li.done { opacity: .45; }
+  @media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+  @media print {
+    body * { visibility: hidden; }
+    #receiptArea, #receiptArea * { visibility: visible; }
+    #receiptArea { position: absolute; left: 0; top: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div><h1>💰 JVM Fee Manager</h1><small>JVM Senior Secondary School, Jhotwara • Demo</small></div>
+  <div class="tabs">
+    <button data-v="dash" class="on">Dashboard</button>
+    <button data-v="students">Students</button>
+    <button data-v="payments">Payments</button>
+    <button data-v="settings">Settings</button>
+  </div>
+</header>
+
+<main>
+  <div class="note">Demo version: data browser में save होता है। Real version में WhatsApp Business API से reminders <b>अपने आप</b> तय तारीख पर जाएँगे और UPI/Razorpay से पेमेंट होते ही रसीद भेजी जाएगी।</div>
+
+  <!-- Dashboard -->
+  <section id="dash" class="view on">
+    <div class="kpis">
+      <div class="kpi"><span>Total Students</span><b id="kStudents">0</b></div>
+      <div class="kpi"><span>Total Pending</span><b id="kPending" class="due">₹0</b></div>
+      <div class="kpi"><span>Collected (this month)</span><b id="kCollected" class="paid">₹0</b></div>
+      <div class="kpi"><span>Students with Dues</span><b id="kDueCount">0</b></div>
+    </div>
+    <div class="panel">
+      <h2>Class-wise Pending Fees</h2>
+      <div id="classBars"></div>
+    </div>
+    <div class="panel">
+      <h2>Quick Actions</h2>
+      <div class="toolbar">
+        <button class="btn b-wa" onclick="openQueue()">📲 Send reminders to all pending</button>
+        <button class="btn b-blue" onclick="switchView('students')">👨‍🎓 View students</button>
+        <button class="btn b-grey" onclick="exportCSV()">⬇️ Export pending list (CSV)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Students -->
+  <section id="students" class="view">
+    <div class="panel">
+      <div class="toolbar">
+        <input id="q" placeholder="🔍 Name / Adm No / Phone" oninput="renderStudents()">
+        <select id="fClass" onchange="renderStudents()"><option value="">All classes</option></select>
+        <select id="fStatus" onchange="renderStudents()"><option value="">All</option><option value="due">Pending only</option><option value="paid">Paid only</option></select>
+        <button class="btn b-blue" onclick="openStudentForm()">➕ Add student</button>
+        <button class="btn b-grey" onclick="addMonthlyFee()" title="हर बच्चे के बकाया में महीने की फीस जोड़ें">📅 Add this month's fee to all</button>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Adm No</th><th>Student</th><th>Class</th><th>Parent / Phone</th><th>Monthly</th><th>Pending</th><th>Actions</th></tr></thead>
+          <tbody id="sBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payments -->
+  <section id="payments" class="view">
+    <div class="panel">
+      <h2>Payment History</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Receipt</th><th>Date</th><th>Student</th><th>Class</th><th>Amount</th><th>Mode</th><th></th></tr></thead>
+          <tbody id="pBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section id="settings" class="view">
+    <div class="panel" style="max-width:520px">
+      <h2>School Settings</h2>
+      <form onsubmit="saveSettings(event)" style="display:grid;gap:10px">
+        <label>School name<input id="setName" style="width:100%"></label>
+        <label>School phone<input id="setPhone" style="width:100%"></label>
+        <label>UPI ID (fees के लिए)<input id="setUpi" placeholder="school@upi" style="width:100%"></label>
+        <label>Fee due day of month<input id="setDueDay" type="number" min="1" max="28" style="width:100%"></label>
+        <div class="toolbar"><button class="btn b-blue">Save</button>
+          <button type="button" class="btn b-red" onclick="resetDemo()">Reset demo data</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<!-- Student form -->
+<div class="modal" id="mStudent"><div class="box">
+  <h3 id="sfTitle">Add Student</h3>
+  <form onsubmit="saveStudent(event)">
+    <input id="sfId" type="hidden">
+    <input id="sfName" placeholder="Student name" required>
+    <input id="sfClass" placeholder="Class (e.g. 6)" required>
+    <input id="sfParent" placeholder="Parent name" required>
+    <input id="sfPhone" placeholder="WhatsApp number (10 digits)" pattern="[0-9]{10}" title="10 digit mobile number" required>
+    <input id="sfMonthly" type="number" min="0" placeholder="Monthly fee ₹" required>
+    <input id="sfDue" type="number" min="0" placeholder="Current pending ₹" required>
+    <div class="end"><button type="button" class="btn b-grey" onclick="closeM('mStudent')">Cancel</button><button class="btn b-blue">Save</button></div>
+  </form>
+</div></div>
+
+<!-- Payment form -->
+<div class="modal" id="mPay"><div class="box">
+  <h3>Record Payment</h3>
+  <p id="payInfo" style="margin-bottom:10px"></p>
+  <form onsubmit="savePayment(event)">
+    <input id="payId" type="hidden">
+    <input id="payAmt" type="number" min="1" placeholder="Amount ₹" required>
+    <select id="payMode"><option>UPI</option><option>Cash</option><option>Cheque</option><option>Card</option></select>
+    <div class="end"><button type="button" class="btn b-grey" onclick="closeM('mPay')">Cancel</button><button class="btn b-green">Save & Generate Receipt</button></div>
+  </form>
+</div></div>
+
+<!-- Receipt -->
+<div class="modal" id="mReceipt"><div class="box">
+  <div id="receiptArea"></div>
+  <div class="end">
+    <button class="btn b-grey" onclick="closeM('mReceipt')">Close</button>
+    <button class="btn b-blue" onclick="window.print()">🖨️ Print</button>
+    <button class="btn b-wa" id="rcptWa">📲 Send on WhatsApp</button>
+  </div>
+</div></div>
+
+<!-- Reminder queue -->
+<div class="modal" id="mQueue"><div class="box">
+  <h3>📲 Reminder Queue</h3>
+  <p style="font-size:.9rem;color:#64748b;margin-bottom:10px">Demo में हर reminder एक click से WhatsApp पर खुलेगा। Real system में ये सब एक साथ अपने आप जाएँगे।</p>
+  <ul class="queue" id="queueList"></ul>
+  <div class="end"><button class="btn b-grey" onclick="closeM('mQueue')">Close</button></div>
+</div></div>
+
+<script>
+const KEY = 'jvm-fee-demo-v1';
+const SEED = {
+  settings: { name: 'JVM Senior Secondary School, Jhotwara', phone: '+91 93142 96400', upi: 'jvmschool@upi', dueDay: 10 },
+  nextAdm: 111, nextRcpt: 1001,
+  students: [
+    { id: 'A101', name: 'Aarav Sharma', cls: '6', parent: 'Ramesh Sharma', phone: '9876500001', monthly: 1800, due: 1800 },
+    { id: 'A102', name: 'Priya Meena', cls: '9', parent: 'Suresh Meena', phone: '9876500002', monthly: 2200, due: 0 },
+    { id: 'A103', name: 'Rohit Saini', cls: '3', parent: 'Kailash Saini', phone: '9876500003', monthly: 1500, due: 3000 },
+    { id: 'A104', name: 'Ananya Gupta', cls: '6', parent: 'Vikas Gupta', phone: '9876500004', monthly: 1800, due: 0 },
+    { id: 'A105', name: 'Karan Choudhary', cls: '10', parent: 'Mahesh Choudhary', phone: '9876500005', monthly: 2500, due: 5000 },
+    { id: 'A106', name: 'Sneha Jain', cls: '1', parent: 'Amit Jain', phone: '9876500006', monthly: 1200, due: 1200 },
+    { id: 'A107', name: 'Yash Kumawat', cls: '9', parent: 'Dinesh Kumawat', phone: '9876500007', monthly: 2200, due: 2200 },
+    { id: 'A108', name: 'Pooja Yadav', cls: '3', parent: 'Rajesh Yadav', phone: '9876500008', monthly: 1500, due: 0 },
+    { id: 'A109', name: 'Arjun Singh', cls: '12', parent: 'Narendra Singh', phone: '9876500009', monthly: 3000, due: 6000 },
+    { id: 'A110', name: 'Kavya Agarwal', cls: '1', parent: 'Sanjay Agarwal', phone: '9876500010', monthly: 1200, due: 0 }
+  ],
+  payments: [
+    { rcpt: 1000, date: new Date().toISOString(), sid: 'A102', name: 'Priya Meena', cls: '9', amt: 2200, mode: 'UPI' }
+  ]
+};
+
+let db = load();
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || structuredClone(SEED); } catch { return structuredClone(SEED); } }
+function save() { localStorage.setItem(KEY, JSON.stringify(db)); renderAll(); }
+const $ = id => document.getElementById(id);
+const rs = n => '₹' + Number(n).toLocaleString('en-IN');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const monthName = () => new Date().toLocaleString('hi-IN', { month: 'long' });
+const find = id => db.students.find(s => s.id === id);
+
+// ---------- Navigation ----------
+document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => switchView(b.dataset.v));
+function switchView(v) {
+  document.querySelectorAll('.view').forEach(x => x.classList.toggle('on', x.id === v));
+  document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x.dataset.v === v));
+}
+function openM(id) { $(id).classList.add('on'); }
+function closeM(id) { $(id).classList.remove('on'); }
+
+// ---------- WhatsApp ----------
+function waLink(phone, text) { return 'https://wa.me/91' + phone + '?text=' + encodeURIComponent(text); }
+function reminderText(s) {
+  const d = db.settings;
+  return `नमस्ते ${s.parent} जी 🙏\n\n${s.name} (कक्षा ${s.cls}, Adm No ${s.id}) की फीस ${rs(s.due)} बाकी है।\nअंतिम तिथि: ${d.dueDay} ${monthName()}\n\nUPI से भुगतान करें: ${d.upi}\n(UPI app में ${rs(s.due)} डालें, note में ${s.id} लिखें)\n\n– ${d.name}\n📞 ${d.phone}`;
+}
+function sendReminder(id) {
+  const s = find(id);
+  window.open(waLink(s.phone, reminderText(s)), '_blank', 'noopener');
+}
+
+// ---------- Students ----------
+function openStudentForm(id) {
+  const s = id ? find(id) : null;
+  $('sfTitle').textContent = s ? 'Edit Student' : 'Add Student';
+  $('sfId').value = s ? s.id : '';
+  $('sfName').value = s ? s.name : '';
+  $('sfClass').value = s ? s.cls : '';
+  $('sfParent').value = s ? s.parent : '';
+  $('sfPhone').value = s ? s.phone : '';
+  $('sfMonthly').value = s ? s.monthly : '';
+  $('sfDue').value = s ? s.due : '';
+  openM('mStudent');
+}
+function saveStudent(e) {
+  e.preventDefault();
+  const data = {
+    name: $('sfName').value.trim(), cls: $('sfClass').value.trim(), parent: $('sfParent').value.trim(),
+    phone: $('sfPhone').value.trim(), monthly: +$('sfMonthly').value, due: +$('sfDue').value
+  };
+  const id = $('sfId').value;
+  if (id) Object.assign(find(id), data);
+  else db.students.push({ id: 'A' + db.nextAdm++, ...data });
+  closeM('mStudent'); save();
+}
+function deleteStudent(id) {
+  if (!confirm('Delete this student?')) return;
+  db.students = db.students.filter(s => s.id !== id); save();
+}
+function addMonthlyFee() {
+  if (!confirm(`सभी बच्चों के बकाया में ${monthName()} की monthly fee जोड़ें?`)) return;
+  db.students.forEach(s => s.due += s.monthly); save();
+}
+
+// ---------- Payments ----------
+function openPay(id) {
+  const s = find(id);
+  $('payId').value = id;
+  $('payInfo').innerHTML = `<b>${esc(s.name)}</b> (Class ${esc(s.cls)}) – Pending <span class="due">${rs(s.due)}</span>`;
+  $('payAmt').value = s.due || '';
+  openM('mPay');
+}
+function savePayment(e) {
+  e.preventDefault();
+  const s = find($('payId').value);
+  const amt = +$('payAmt').value;
+  const p = { rcpt: db.nextRcpt++, date: new Date().toISOString(), sid: s.id, name: s.name, cls: s.cls, amt, mode: $('payMode').value };
+  s.due = Math.max(0, s.due - amt);
+  db.payments.unshift(p);
+  closeM('mPay'); save(); showReceipt(p.rcpt);
+}
+function showReceipt(no) {
+  const p = db.payments.find(x => x.rcpt === no);
+  const s = find(p.sid) || { parent: '-', phone: '', due: 0 };
+  const date = new Date(p.date).toLocaleDateString('en-IN');
+  $('receiptArea').innerHTML = `<div class="receipt">
+    <h4>${esc(db.settings.name)}</h4>
+    <p style="text-align:center;font-size:.85rem">📞 ${esc(db.settings.phone)}</p><hr style="margin:8px 0">
+    <b>Fee Receipt #${p.rcpt}</b><br>Date: ${date}<br>
+    Student: ${esc(p.name)} (Adm ${esc(p.sid)})<br>Class: ${esc(p.cls)}<br>Parent: ${esc(s.parent)}<br>
+    Amount Paid: <b class="paid">${rs(p.amt)}</b><br>Mode: ${esc(p.mode)}<br>Balance Pending: ${rs(s.due)}
+    <p style="text-align:right;margin-top:16px;font-size:.85rem">Authorised Signatory</p></div>`;
+  const text = `✅ Fee Receipt #${p.rcpt}\n${db.settings.name}\n\nStudent: ${p.name} (कक्षा ${p.cls})\nराशि: ${rs(p.amt)} (${p.mode})\nतारीख: ${date}\nबाकी: ${rs(s.due)}\n\nधन्यवाद 🙏`;
+  $('rcptWa').onclick = () => s.phone && window.open(waLink(s.phone, text), '_blank', 'noopener');
+  openM('mReceipt');
+}
+
+// ---------- Reminder queue ----------
+function openQueue() {
+  const due = db.students.filter(s => s.due > 0);
+  $('queueList').innerHTML = due.length ? due.map(s =>
+    `<li id="q-${s.id}"><span><b>${esc(s.name)}</b> (${esc(s.cls)}) – <span class="due">${rs(s.due)}</span></span>
+     <button class="btn b-wa sm" onclick="sendReminder('${s.id}');this.closest('li').classList.add('done')">Send</button></li>`
+  ).join('') : '<li>🎉 कोई फीस बाकी नहीं!</li>';
+  openM('mQueue');
+}
+
+// ---------- Export ----------
+function exportCSV() {
+  const rows = [['Adm No', 'Student', 'Class', 'Parent', 'Phone', 'Pending']];
+  db.students.filter(s => s.due > 0).forEach(s => rows.push([s.id, s.name, s.cls, s.parent, s.phone, s.due]));
+  const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' }));
+  a.download = 'pending-fees.csv'; a.click();
+}
+
+// ---------- Settings ----------
+function saveSettings(e) {
+  e.preventDefault();
+  db.settings = { name: $('setName').value.trim(), phone: $('setPhone').value.trim(), upi: $('setUpi').value.trim(), dueDay: +$('setDueDay').value || 10 };
+  save(); alert('Saved');
+}
+function resetDemo() {
+  if (!confirm('Reset all demo data?')) return;
+  db = structuredClone(SEED); save();
+}
+
+// ---------- Render ----------
+function renderDash() {
+  const total = db.students.reduce((a, s) => a + s.due, 0);
+  const now = new Date();
+  const collected = db.payments.filter(p => { const d = new Date(p.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); }).reduce((a, p) => a + p.amt, 0);
+  $('kStudents').textContent = db.students.length;
+  $('kPending').textContent = rs(total);
+  $('kCollected').textContent = rs(collected);
+  $('kDueCount').textContent = db.students.filter(s => s.due > 0).length;
+  const byClass = {};
+  db.students.forEach(s => byClass[s.cls] = (byClass[s.cls] || 0) + s.due);
+  const max = Math.max(1, ...Object.values(byClass));
+  $('classBars').innerHTML = Object.keys(byClass).sort((a, b) => (parseInt(a) || 0) - (parseInt(b) || 0)).map(c =>
+    `<div class="bar"><label>Class ${esc(c)}</label><div class="track"><div class="fill" style="width:${byClass[c] / max * 100}%"></div></div><div class="amt">${rs(byClass[c])}</div></div>`
+  ).join('');
+}
+function renderStudents() {
+  const q = $('q').value.toLowerCase(), fc = $('fClass').value, fs = $('fStatus').value;
+  const list = db.students.filter(s =>
+    (!q || [s.id, s.name, s.phone, s.parent].join(' ').toLowerCase().includes(q)) &&
+    (!fc || s.cls === fc) && (!fs || (fs === 'due' ? s.due > 0 : s.due === 0)));
+  $('sBody').innerHTML = list.map(s => `<tr>
+    <td>${esc(s.id)}</td><td><b>${esc(s.name)}</b></td><td>${esc(s.cls)}</td>
+    <td>${esc(s.parent)}<br><small>${esc(s.phone)}</small></td><td>${rs(s.monthly)}</td>
+    <td class="${s.due > 0 ? 'due' : 'paid'}">${s.due > 0 ? rs(s.due) : 'Paid ✓'}</td>
+    <td class="actions">
+      ${s.due > 0 ? `<button class="btn b-wa sm" onclick="sendReminder('${s.id}')">📲 Remind</button>` : ''}
+      <button class="btn b-green sm" onclick="openPay('${s.id}')">₹ Pay</button>
+      <button class="btn b-grey sm" onclick="openStudentForm('${s.id}')">✏️</button>
+      <button class="btn b-grey sm" onclick="deleteStudent('${s.id}')">🗑️</button>
+    </td></tr>`).join('') || '<tr><td colspan="7">No students found</td></tr>';
+  const classes = [...new Set(db.students.map(s => s.cls))].sort((a, b) => (parseInt(a) || 0) - (parseInt(b) || 0));
+  const cur = $('fClass').value;
+  $('fClass').innerHTML = '<option value="">All classes</option>' + classes.map(c => `<option ${c === cur ? 'selected' : ''}>${esc(c)}</option>`).join('');
+}
+function renderPayments() {
+  $('pBody').innerHTML = db.payments.map(p => `<tr>
+    <td>#${p.rcpt}</td><td>${new Date(p.date).toLocaleDateString('en-IN')}</td><td>${esc(p.name)}</td><td>${esc(p.cls)}</td>
+    <td class="paid">${rs(p.amt)}</td><td>${esc(p.mode)}</td>
+    <td><button class="btn b-grey sm" onclick="showReceipt(${p.rcpt})">🧾 Receipt</button></td></tr>`).join('') || '<tr><td colspan="7">No payments yet</td></tr>';
+}
+function renderSettings() {
+  $('setName').value = db.settings.name; $('setPhone').value = db.settings.phone;
+  $('setUpi').value = db.settings.upi; $('setDueDay').value = db.settings.dueDay;
+}
+function renderAll() { renderDash(); renderStudents(); renderPayments(); renderSettings(); }
+renderAll();
+</script>
+</body>
+</html>

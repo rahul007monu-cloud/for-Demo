@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVM Senior Secondary School, Jhotwara, Jaipur</title>
+<meta name="description" content="JVM Senior Secondary School, Jhotwara, Jaipur – RBSE school since 1993. Admissions open. Online fee payment.">
+<style>
+  :root { --blue: #1e3a8a; --teal: #0f766e; --gold: #f59e0b; --light: #f8fafc; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Segoe UI", "Noto Sans Devanagari", Arial, sans-serif; color: #1e293b; line-height: 1.6; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
+
+  .topbar { background: var(--blue); color: #fff; font-size: .9rem; padding: 6px 0; }
+  .topbar .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  header { background: #fff; position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--blue); }
+  .logo .badge { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-size: 1rem; }
+  .logo small { display: block; font-weight: 500; color: #64748b; font-size: .75rem; }
+  nav a { margin-left: 22px; font-weight: 600; }
+  nav a:hover { color: var(--teal); }
+  .menu-btn { display: none; background: none; border: 0; font-size: 1.6rem; cursor: pointer; }
+
+  .hero { background: linear-gradient(120deg, rgba(30,58,138,.92), rgba(15,118,110,.88)), url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600') center/cover; color: #fff; padding: 90px 0 100px; }
+  .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.2; margin-bottom: 14px; }
+  .hero p { font-size: 1.15rem; max-width: 620px; margin-bottom: 26px; opacity: .95; }
+  .pill { display: inline-block; background: var(--gold); color: #1e293b; font-weight: 700; padding: 5px 14px; border-radius: 999px; margin-bottom: 16px; }
+  .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 0; cursor: pointer; font-size: 1rem; }
+  .btn-gold { background: var(--gold); color: #1e293b; }
+  .btn-white { background: #fff; color: var(--blue); margin-left: 10px; }
+  .btn-blue { background: var(--blue); color: #fff; }
+
+  .stats { background: #fff; margin-top: -45px; position: relative; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.08); display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 24px 10px; }
+  .stats b { display: block; font-size: 2rem; color: var(--teal); }
+
+  section { padding: 70px 0; }
+  .alt { background: var(--light); }
+  .title { text-align: center; margin-bottom: 40px; }
+  .title h2 { font-size: 2rem; color: var(--blue); }
+  .title p { color: #64748b; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,.05); }
+  .card .ic { font-size: 2rem; }
+  .card h3 { margin: 8px 0; color: var(--blue); }
+
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .about img { width: 100%; border-radius: 14px; }
+
+  .notices li { list-style: none; background: #fff; border-left: 4px solid var(--teal); padding: 12px 16px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; gap: 10px; }
+  .notices span { color: #64748b; font-size: .9rem; white-space: nowrap; }
+
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .gallery img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  form { display: grid; gap: 12px; }
+  input, select, textarea { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ok { display: none; background: #dcfce7; color: #166534; padding: 12px; border-radius: 8px; }
+
+  .fee-box { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #fff; border-radius: 14px; padding: 30px; }
+  .fee-box h3 { font-size: 1.5rem; margin-bottom: 10px; }
+  .fee-box input { margin: 12px 0; }
+
+  footer { background: #0f172a; color: #cbd5e1; padding: 40px 0 20px; }
+  footer .cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; margin-bottom: 20px; }
+  footer h4 { color: #fff; margin-bottom: 10px; }
+  footer p, footer a { font-size: .95rem; display: block; margin-bottom: 4px; }
+  .copy { border-top: 1px solid #334155; padding-top: 14px; text-align: center; font-size: .85rem; }
+
+  .wa-float { position: fixed; right: 18px; bottom: 18px; background: #25d366; color: #fff; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; box-shadow: 0 6px 20px rgba(0,0,0,.25); z-index: 30; }
+
+  @media (max-width: 860px) {
+    nav { display: none; position: absolute; top: 68px; left: 0; right: 0; background: #fff; padding: 10px 20px; box-shadow: 0 6px 12px rgba(0,0,0,.08); }
+    nav.open { display: block; }
+    nav a { display: block; margin: 10px 0; }
+    .menu-btn { display: block; }
+    .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .grid3, .about, .split, footer .cols { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: repeat(2, 1fr); }
+    .row { grid-template-columns: 1fr; }
+    .btn-white { margin: 10px 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <span>📞 +91 93142 96400 &nbsp; ✉️ jagritigroup.jpr@gmail.com</span>
+  <span>Govt. of Rajasthan Recognised • RBSE Curriculum</span>
+</div></div>
+
+<header><div class="wrap">
+  <a href="#" class="logo"><div class="badge">JVM</div><div>JVM Senior Secondary School<small>Jagriti Shikshan Sansthan • Since 1993</small></div></div></a>
+  <button class="menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#facilities">Facilities</a>
+    <a href="#notices">Notices</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#fees">Pay Fees</a>
+    <a href="#admission">Admission</a>
+  </nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <span class="pill">🎓 Admissions Open 2027–28</span>
+  <h1>Jhotwara का भरोसेमंद स्कूल<br>30+ वर्षों से</h1>
+  <p>JVM Senior Secondary School – holistic education with strong values, dedicated teachers and a caring environment for every child.</p>
+  <a href="#admission" class="btn btn-gold">Apply for Admission</a>
+  <a href="#fees" class="btn btn-white">Pay Fees Online</a>
+</div></div>
+
+<div class="wrap">
+  <div class="stats">
+    <div><b>1993</b>Established</div>
+    <div><b>30+</b>Years of Trust</div>
+    <div><b>RBSE</b>Curriculum</div>
+    <div><b>Nursery–12</b>Classes*</div>
+  </div>
+</div>
+
+<section id="about"><div class="wrap about">
+  <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900" alt="Students in classroom">
+  <div>
+    <h2 style="color:var(--blue);font-size:2rem;margin-bottom:12px">About Our School</h2>
+    <p>Jagriti Shikshan Sansthan was established in 1993 by Mr. Rajendra Sharma and Mrs. Manju Sharma with a vision to provide quality education to every child of Jhotwara.</p>
+    <p style="margin-top:10px">We follow the RBSE curriculum and focus on all-round development – academics, sports, arts, and values – so our students become confident and responsible citizens.</p>
+    <a href="#admission" class="btn btn-blue" style="margin-top:18px">Visit the School</a>
+  </div>
+</div></section>
+
+<section id="facilities" class="alt"><div class="wrap">
+  <div class="title"><h2>Why Parents Choose JVM</h2><p>Everything your child needs to grow</p></div>
+  <div class="grid3">
+    <div class="card"><div class="ic">👩‍🏫</div><h3>Experienced Teachers</h3><p>Dedicated faculty who give personal attention to every student.</p></div>
+    <div class="card"><div class="ic">💻</div><h3>Computer Lab</h3><p>Digital learning and computer education from early classes.</p></div>
+    <div class="card"><div class="ic">🔬</div><h3>Science Labs</h3><p>Practical learning in physics, chemistry and biology.</p></div>
+    <div class="card"><div class="ic">⚽</div><h3>Sports & Games</h3><p>Regular sports, yoga and annual sports day.</p></div>
+    <div class="card"><div class="ic">🚌</div><h3>Transport</h3><p>Safe bus facility covering Jhotwara and nearby areas.</p></div>
+    <div class="card"><div class="ic">📱</div><h3>Parent Updates</h3><p>Attendance, fees and notices directly on WhatsApp.</p></div>
+  </div>
+</div></section>
+
+<section id="notices"><div class="wrap">
+  <div class="title"><h2>Latest Notices</h2><p>Updates for parents and students</p></div>
+  <ul class="notices">
+    <li>Admissions open for session 2027–28. Limited seats. <span>01 Nov 2026</span></li>
+    <li>Diwali vacation from 6 Nov to 12 Nov. School reopens 13 Nov. <span>30 Oct 2026</span></li>
+    <li>Parent–Teacher Meeting on Saturday, 21 Nov, 10 AM – 1 PM. <span>28 Oct 2026</span></li>
+    <li>November fee due date: 10 Nov. Pay online to avoid late fee. <span>25 Oct 2026</span></li>
+  </ul>
+</div></section>
+
+<section id="gallery" class="alt"><div class="wrap">
+  <div class="title"><h2>Gallery</h2><p>Life at JVM</p></div>
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500" alt="Classroom">
+    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=500" alt="Students">
+    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500" alt="Sports">
+    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=500" alt="Learning">
+  </div>
+  <p style="text-align:center;margin-top:12px;color:#64748b;font-size:.9rem">* Sample photos – will be replaced with actual school photos.</p>
+</div></section>
+
+<section><div class="wrap split">
+  <div id="fees" class="fee-box">
+    <h3>💳 Pay School Fees Online</h3>
+    <p>Enter the student's admission number to see pending fees and pay by UPI, card or net banking.</p>
+    <input id="admNo" placeholder="Admission No. (e.g. A101)">
+    <button class="btn btn-gold" onclick="checkFee()">Check & Pay</button>
+    <div id="feeResult" style="margin-top:14px"></div>
+  </div>
+
+  <div id="admission">
+    <h2 style="color:var(--blue);margin-bottom:10px">Admission Enquiry</h2>
+    <p style="margin-bottom:14px;color:#64748b">Fill the form – our office will contact you on WhatsApp.</p>
+    <form onsubmit="return sendEnquiry(event)">
+      <div class="row">
+        <input id="pName" placeholder="Parent's Name" required>
+        <input id="pPhone" placeholder="Mobile Number" pattern="[0-9]{10}" title="10 digit mobile number" required>
+      </div>
+      <div class="row">
+        <input id="sName" placeholder="Student's Name" required>
+        <select id="sClass" required>
+          <option value="">Class for Admission</option>
+          <option>Nursery</option><option>LKG</option><option>UKG</option>
+          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+          <option>11</option><option>12</option>
+        </select>
+      </div>
+      <textarea id="msg" rows="3" placeholder="Any question? (optional)"></textarea>
+      <button class="btn btn-blue" type="submit">Submit Enquiry</button>
+      <div class="ok" id="ok">✅ Thank you! Our office will contact you shortly.</div>
+    </form>
+  </div>
+</div></section>
+
+<section class="alt" style="padding:0"><iframe title="School location" src="https://www.google.com/maps?q=Jagriti+Marg+Niwaru+Road+Jhotwara+Jaipur&output=embed" width="100%" height="320" style="border:0;display:block" loading="lazy"></iframe></section>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <h4>JVM Senior Secondary School</h4>
+      <p>396, Udyog Nagar, Jagriti Marg, Niwaru Road, Jhotwara, Jaipur – 302012</p>
+      <p>📞 +91 93142 96400</p>
+      <p>✉️ jagritigroup.jpr@gmail.com</p>
+    </div>
+    <div><h4>Quick Links</h4><a href="#about">About</a><a href="#admission">Admission</a><a href="#fees">Pay Fees</a><a href="#notices">Notices</a></div>
+    <div><h4>Parents</h4><a href="#">Results</a><a href="#">Fee Structure</a><a href="#">Transfer Certificate</a><a href="#">Holiday List</a></div>
+  </div>
+  <div class="copy">© 2026 Jagriti Shikshan Sansthan. All rights reserved. <br><small>Demo design – not the official website.</small></div>
+</div></footer>
+
+<a class="wa-float" href="https://wa.me/919314296400?text=Hello%2C%20I%20want%20to%20know%20about%20admission" target="_blank" rel="noopener" title="Chat on WhatsApp">💬</a>
+
+<script>
+  // Demo data – in the real system this comes from the fee database.
+  const demoFees = {
+    A101: { name: 'Aarav Sharma', cls: '6', due: 1800, month: 'November' },
+    A102: { name: 'Priya Meena', cls: '9', due: 0, month: 'November' },
+    A103: { name: 'Rohit Saini', cls: '3', due: 3600, month: 'October + November' }
+  };
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function checkFee() {
+    const id = document.getElementById('admNo').value.trim().toUpperCase();
+    const out = document.getElementById('feeResult');
+    const s = demoFees[id];
+    if (!s) { out.innerHTML = 'No student found. Try <b>A101</b>, <b>A102</b> or <b>A103</b> (demo).'; return; }
+    if (s.due === 0) { out.innerHTML = `✅ <b>${esc(s.name)}</b> (Class ${esc(s.cls)}) – no fees pending. Thank you!`; return; }
+    out.innerHTML = `<b>${esc(s.name)}</b> (Class ${esc(s.cls)})<br>Pending: <b>₹${s.due.toLocaleString('en-IN')}</b> (${esc(s.month)})<br>
+      <button class="btn btn-gold" style="margin-top:10px" onclick="alert('Demo: here the Razorpay / UPI payment page opens. After payment, the receipt is sent on WhatsApp automatically.')">Pay ₹${s.due.toLocaleString('en-IN')}</button>`;
+  }
+
+  function sendEnquiry(e) {
+    e.preventDefault();
+    const v = id => document.getElementById(id).value.trim();
+    const text = `New Admission Enquiry\nParent: ${v('pName')}\nMobile: ${v('pPhone')}\nStudent: ${v('sName')}\nClass: ${v('sClass')}\nMessage: ${v('msg') || '-'}`;
+    document.getElementById('ok').style.display = 'block';
+    // Demo: sends enquiry to the school's WhatsApp. In production it is saved to the admission system and an auto-reply goes to the parent.
+    window.open('https://wa.me/919314296400?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    e.target.reset();
+    return false;
+  }
+</script>
+</body>
+</html>
