@@ -1,255 +1,835 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JVM Senior Secondary School, Jhotwara, Jaipur</title>
-<meta name="description" content="JVM Senior Secondary School, Jhotwara, Jaipur – RBSE school since 1993. Admissions open. Online fee payment.">
+<title>JVM Senior Secondary School | Jhotwara, Jaipur</title>
+<meta name="description" content="JVM Senior Secondary School, Jhotwara, Jaipur. RBSE school since 1993. Admissions open. Online fee payment, smart attendance and parent app.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root { --blue: #1e3a8a; --teal: #0f766e; --gold: #f59e0b; --light: #f8fafc; }
+  :root {
+    --navy: #0b1437; --navy2: #13235c; --blue: #2445b8; --teal: #14b8a6; --gold: #fbbf24;
+    --ink: #0f172a; --muted: #64748b; --light: #f5f7fb; --radius: 18px;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "Segoe UI", "Noto Sans Devanagari", Arial, sans-serif; color: #1e293b; line-height: 1.6; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body { font-family: "Poppins", "Segoe UI", Arial, sans-serif; color: var(--ink); background: #fff; line-height: 1.65; overflow-x: hidden; }
   a { color: inherit; text-decoration: none; }
-  .wrap { max-width: 1150px; margin: 0 auto; padding: 0 20px; }
+  img { display: block; max-width: 100%; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 22px; }
+  .grad-text { background: linear-gradient(90deg, var(--gold), #fde68a, var(--teal)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-  .topbar { background: var(--blue); color: #fff; font-size: .9rem; padding: 6px 0; }
-  .topbar .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  /* ---------- Header ---------- */
+  header { position: fixed; inset: 0 0 auto 0; z-index: 50; transition: background .3s, box-shadow .3s; }
+  header.scrolled { background: rgba(11,20,55,.82); backdrop-filter: blur(14px); box-shadow: 0 6px 30px rgba(0,0,0,.25); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 76px; color: #fff; }
+  .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; line-height: 1.2; }
+  .logo .mark { width: 46px; height: 46px; border-radius: 14px; background: linear-gradient(135deg, var(--gold), #f59e0b); color: var(--navy); display: grid; place-items: center; font-weight: 800; box-shadow: 0 8px 20px rgba(251,191,36,.35); transform: perspective(300px) rotateY(-12deg); }
+  .logo small { display: block; font-weight: 400; font-size: .72rem; opacity: .75; }
+  .links { display: flex; gap: 26px; align-items: center; font-size: .95rem; font-weight: 500; }
+  .links a { opacity: .9; position: relative; }
+  .links a:not(.btn)::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 2px; background: var(--gold); transition: width .25s; }
+  .links a:not(.btn):hover::after { width: 100%; }
+  .burger { display: none; background: none; border: 0; color: #fff; font-size: 1.7rem; cursor: pointer; }
 
-  header { background: #fff; position: sticky; top: 0; z-index: 20; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
-  header .wrap { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--blue); }
-  .logo .badge { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-size: 1rem; }
-  .logo small { display: block; font-weight: 500; color: #64748b; font-size: .75rem; }
-  nav a { margin-left: 22px; font-weight: 600; }
-  nav a:hover { color: var(--teal); }
-  .menu-btn { display: none; background: none; border: 0; font-size: 1.6rem; cursor: pointer; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 999px; font-weight: 600; border: 0; cursor: pointer; font: inherit; font-weight: 600; transition: transform .2s, box-shadow .2s; }
+  .btn:hover { transform: translateY(-3px); }
+  .btn-gold { background: linear-gradient(135deg, var(--gold), #f59e0b); color: var(--navy); box-shadow: 0 10px 30px rgba(251,191,36,.35); }
+  .btn-ghost { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.3); backdrop-filter: blur(6px); }
+  .btn-navy { background: var(--navy); color: #fff; box-shadow: 0 10px 25px rgba(11,20,55,.25); }
+  .btn.sm { padding: 9px 18px; font-size: .9rem; }
 
-  .hero { background: linear-gradient(120deg, rgba(30,58,138,.92), rgba(15,118,110,.88)), url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1600') center/cover; color: #fff; padding: 90px 0 100px; }
-  .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.2; margin-bottom: 14px; }
-  .hero p { font-size: 1.15rem; max-width: 620px; margin-bottom: 26px; opacity: .95; }
-  .pill { display: inline-block; background: var(--gold); color: #1e293b; font-weight: 700; padding: 5px 14px; border-radius: 999px; margin-bottom: 16px; }
-  .btn { display: inline-block; padding: 12px 24px; border-radius: 8px; font-weight: 700; border: 0; cursor: pointer; font-size: 1rem; }
-  .btn-gold { background: var(--gold); color: #1e293b; }
-  .btn-white { background: #fff; color: var(--blue); margin-left: 10px; }
-  .btn-blue { background: var(--blue); color: #fff; }
+  /* ---------- Hero ---------- */
+  .hero { position: relative; min-height: 100vh; background: radial-gradient(1200px 600px at 75% 30%, #1e3a8a 0%, transparent 60%), radial-gradient(800px 500px at 10% 90%, rgba(20,184,166,.35), transparent 60%), var(--navy); color: #fff; overflow: hidden; display: flex; align-items: center; }
+  #scene { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero .wrap { position: relative; z-index: 2; width: 100%; padding-top: 90px; padding-bottom: 60px; pointer-events: none; }
+  .hero .wrap * { pointer-events: auto; }
+  .hero-text { max-width: 600px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); padding: 7px 16px; border-radius: 999px; font-size: .88rem; margin-bottom: 22px; backdrop-filter: blur(6px); }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.25); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } }
+  .hero h1 { font-size: clamp(2.3rem, 5.4vw, 4.2rem); line-height: 1.1; font-weight: 800; margin-bottom: 20px; text-shadow: 0 6px 30px rgba(0,0,0,.35); }
+  .hero p { font-size: 1.12rem; opacity: .88; margin-bottom: 32px; max-width: 520px; }
+  .hero .ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .scroll-hint { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 2; font-size: .8rem; opacity: .7; text-align: center; }
+  .scroll-hint span { display: block; width: 24px; height: 38px; border: 2px solid #fff; border-radius: 14px; margin: 0 auto 6px; position: relative; }
+  .scroll-hint span::after { content: ""; position: absolute; left: 50%; top: 7px; width: 4px; height: 8px; background: #fff; border-radius: 2px; transform: translateX(-50%); animation: wheel 1.6s infinite; }
+  @keyframes wheel { to { top: 20px; opacity: 0; } }
+  .no3d #scene { display: none; }
 
-  .stats { background: #fff; margin-top: -45px; position: relative; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.08); display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 24px 10px; }
-  .stats b { display: block; font-size: 2rem; color: var(--teal); }
+  /* ---------- Stats ---------- */
+  .stats { position: relative; z-index: 3; margin-top: -70px; }
+  .stats .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .stat { background: #fff; border-radius: var(--radius); padding: 26px 20px; text-align: center; box-shadow: 0 20px 50px rgba(11,20,55,.12); transform-style: preserve-3d; }
+  .stat b { display: block; font-size: 2.3rem; font-weight: 800; background: linear-gradient(135deg, var(--blue), var(--teal)); -webkit-background-clip: text; background-clip: text; color: transparent; line-height: 1.2; }
+  .stat span { color: var(--muted); font-size: .92rem; }
 
-  section { padding: 70px 0; }
+  /* ---------- Sections ---------- */
+  section { padding: 110px 0; position: relative; }
   .alt { background: var(--light); }
-  .title { text-align: center; margin-bottom: 40px; }
-  .title h2 { font-size: 2rem; color: var(--blue); }
-  .title p { color: #64748b; }
+  .dark { background: var(--navy); color: #fff; overflow: hidden; }
+  .head { text-align: center; max-width: 700px; margin: 0 auto 56px; }
+  .eyebrow { display: inline-block; color: var(--teal); font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; margin-bottom: 10px; }
+  .head h2 { font-size: clamp(1.9rem, 3.6vw, 2.8rem); line-height: 1.2; font-weight: 800; }
+  .head p { color: var(--muted); margin-top: 12px; }
+  .dark .head p { color: #cbd5e1; }
 
-  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-  .card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,.05); }
-  .card .ic { font-size: 2rem; }
-  .card h3 { margin: 8px 0; color: var(--blue); }
+  .reveal { opacity: 0; transform: translateY(40px) rotateX(8deg); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .tilt { transform-style: preserve-3d; transition: transform .15s ease-out, box-shadow .3s; will-change: transform; }
+  .tilt .pop { transform: translateZ(40px); }
 
-  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-  .about img { width: 100%; border-radius: 14px; }
+  /* About */
+  .about { display: grid; grid-template-columns: 1.05fr 1fr; gap: 70px; align-items: center; }
+  .about-visual { position: relative; perspective: 1000px; }
+  .about-visual .main { border-radius: 26px; overflow: hidden; box-shadow: 0 40px 80px rgba(11,20,55,.25); }
+  .about-visual .main img { width: 100%; height: 440px; object-fit: cover; }
+  .float-card { position: absolute; background: #fff; border-radius: 16px; padding: 14px 18px; box-shadow: 0 20px 40px rgba(11,20,55,.18); display: flex; gap: 12px; align-items: center; font-size: .9rem; animation: bob 5s ease-in-out infinite; }
+  .float-card .ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.3rem; }
+  .fc1 { left: -30px; bottom: 40px; } .fc1 .ic { background: #fef3c7; }
+  .fc2 { right: -24px; top: 30px; animation-delay: -2.5s; } .fc2 .ic { background: #ccfbf1; }
+  @keyframes bob { 50% { transform: translateY(-14px); } }
+  .about h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); line-height: 1.2; font-weight: 800; margin-bottom: 18px; }
+  .about p { color: #475569; margin-bottom: 14px; }
+  .ticks { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0 28px; }
+  .ticks li::before { content: "✓"; display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: #fff; font-size: .75rem; margin-right: 8px; }
 
-  .notices li { list-style: none; background: #fff; border-left: 4px solid var(--teal); padding: 12px 16px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; gap: 10px; }
-  .notices span { color: #64748b; font-size: .9rem; white-space: nowrap; }
+  /* Feature cards */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; perspective: 1200px; }
+  .card { background: #fff; border-radius: var(--radius); padding: 30px 26px; box-shadow: 0 10px 30px rgba(11,20,55,.07); border: 1px solid #eef2f7; }
+  .card:hover { box-shadow: 0 30px 60px rgba(11,20,55,.16); }
+  .card .ic { width: 60px; height: 60px; border-radius: 18px; display: grid; place-items: center; font-size: 1.7rem; margin-bottom: 18px; background: linear-gradient(135deg, #e0e7ff, #ccfbf1); }
+  .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
+  .card p { color: var(--muted); font-size: .95rem; }
 
-  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .gallery img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; }
+  /* Academics flip cards */
+  .flips { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+  .flip { perspective: 1000px; height: 250px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transition: transform .8s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+  .flip:hover .flip-inner, .flip.on .flip-inner { transform: rotateY(180deg); }
+  .face { position: absolute; inset: 0; border-radius: var(--radius); padding: 24px 20px; backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+  .front { background: linear-gradient(160deg, var(--navy2), var(--blue)); color: #fff; box-shadow: 0 20px 40px rgba(36,69,184,.3); }
+  .front .em { font-size: 2.6rem; margin-bottom: 10px; }
+  .front h3 { font-size: 1.1rem; } .front span { opacity: .75; font-size: .88rem; }
+  .back { background: #fff; transform: rotateY(180deg); box-shadow: 0 20px 40px rgba(11,20,55,.12); font-size: .9rem; color: #475569; border: 2px solid var(--teal); }
+  .back b { color: var(--navy); display: block; margin-bottom: 8px; }
 
-  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-  form { display: grid; gap: 12px; }
-  input, select, textarea { width: 100%; padding: 11px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .ok { display: none; background: #dcfce7; color: #166534; padding: 12px; border-radius: 8px; }
+  /* Automation section */
+  .auto-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; perspective: 1400px; }
+  .auto { background: linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius); padding: 24px 20px; backdrop-filter: blur(8px); position: relative; overflow: hidden; }
+  .auto::before { content: ""; position: absolute; width: 160px; height: 160px; border-radius: 50%; background: radial-gradient(circle, rgba(20,184,166,.35), transparent 70%); top: -60px; right: -60px; }
+  .auto .ic { font-size: 1.9rem; margin-bottom: 12px; }
+  .auto h3 { font-size: 1.02rem; margin-bottom: 6px; }
+  .auto p { color: #cbd5e1; font-size: .87rem; }
+  .auto .tag { position: absolute; top: 14px; right: 14px; font-size: .68rem; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--gold); color: var(--navy); }
+  .orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .5; pointer-events: none; }
+  .orb.o1 { width: 420px; height: 420px; background: #2445b8; top: -120px; left: -120px; }
+  .orb.o2 { width: 380px; height: 380px; background: #14b8a6; bottom: -140px; right: -100px; }
 
-  .fee-box { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #fff; border-radius: 14px; padding: 30px; }
-  .fee-box h3 { font-size: 1.5rem; margin-bottom: 10px; }
-  .fee-box input { margin: 12px 0; }
+  /* Phone mockup */
+  .app { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .phone-stage { perspective: 1400px; display: flex; justify-content: center; }
+  .phone { width: 290px; height: 590px; border-radius: 44px; background: #0b1437; padding: 14px; box-shadow: 0 50px 100px rgba(11,20,55,.35), inset 0 0 0 2px #334155; transform: rotateY(-22deg) rotateX(8deg); transition: transform .4s; animation: phoneFloat 6s ease-in-out infinite; }
+  @keyframes phoneFloat { 50% { transform: rotateY(-14deg) rotateX(4deg) translateY(-14px); } }
+  .screen { width: 100%; height: 100%; border-radius: 32px; background: linear-gradient(180deg, #e0f2fe, #f8fafc); overflow: hidden; padding: 18px 14px; position: relative; }
+  .screen .bar { display: flex; justify-content: space-between; font-size: .7rem; font-weight: 600; margin-bottom: 14px; color: #334155; }
+  .screen h4 { font-size: .95rem; margin-bottom: 4px; } .screen .sub { font-size: .72rem; color: var(--muted); margin-bottom: 12px; }
+  .notif { background: #fff; border-radius: 14px; padding: 10px 12px; margin-bottom: 10px; font-size: .74rem; box-shadow: 0 6px 16px rgba(0,0,0,.06); display: flex; gap: 10px; align-items: flex-start; opacity: 0; transform: translateX(40px); animation: slideIn .6s forwards; }
+  .notif .ni { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex-shrink: 0; font-size: .9rem; }
+  .notif b { display: block; font-size: .78rem; }
+  @keyframes slideIn { to { opacity: 1; transform: none; } }
+  .app ul { list-style: none; margin: 24px 0 30px; }
+  .app li { display: flex; gap: 14px; margin-bottom: 18px; }
+  .app li .ic { width: 46px; height: 46px; border-radius: 14px; background: #eef2ff; display: grid; place-items: center; font-size: 1.3rem; flex-shrink: 0; }
+  .app li b { display: block; }
+  .app li span { color: var(--muted); font-size: .93rem; }
 
-  footer { background: #0f172a; color: #cbd5e1; padding: 40px 0 20px; }
-  footer .cols { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 30px; margin-bottom: 20px; }
-  footer h4 { color: #fff; margin-bottom: 10px; }
-  footer p, footer a { font-size: .95rem; display: block; margin-bottom: 4px; }
-  .copy { border-top: 1px solid #334155; padding-top: 14px; text-align: center; font-size: .85rem; }
+  /* Gallery 3D carousel */
+  #gallery { overflow: hidden; }
+  .carousel-stage { height: 420px; perspective: 1400px; display: flex; align-items: center; justify-content: center; }
+  .carousel { position: relative; width: 300px; height: 200px; transform-style: preserve-3d; animation: spin 36s linear infinite; }
+  .carousel-stage:hover .carousel { animation-play-state: paused; }
+  .carousel figure { position: absolute; inset: 0; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,.25); background: linear-gradient(135deg, var(--blue), var(--teal)); }
+  .carousel img { width: 100%; height: 100%; object-fit: cover; }
+  .carousel figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 14px; background: linear-gradient(transparent, rgba(0,0,0,.7)); color: #fff; font-size: .85rem; font-weight: 600; }
+  @keyframes spin { to { transform: rotateY(-360deg); } }
 
-  .wa-float { position: fixed; right: 18px; bottom: 18px; background: #25d366; color: #fff; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 1.8rem; box-shadow: 0 6px 20px rgba(0,0,0,.25); z-index: 30; }
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: s; }
+  .step { position: relative; padding: 30px 22px; background: #fff; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(11,20,55,.07); }
+  .step::before { counter-increment: s; content: "0" counter(s); font-size: 2.6rem; font-weight: 800; background: linear-gradient(135deg, var(--gold), var(--teal)); -webkit-background-clip: text; background-clip: text; color: transparent; display: block; line-height: 1; margin-bottom: 12px; }
+  .step h3 { font-size: 1.05rem; margin-bottom: 6px; } .step p { color: var(--muted); font-size: .92rem; }
 
+  /* Notices + testimonials */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .notice { display: flex; gap: 16px; padding: 18px; border-radius: 16px; background: #fff; margin-bottom: 14px; box-shadow: 0 8px 22px rgba(11,20,55,.06); align-items: center; }
+  .notice .date { min-width: 62px; height: 62px; border-radius: 14px; background: linear-gradient(135deg, var(--navy2), var(--blue)); color: #fff; display: grid; place-items: center; text-align: center; line-height: 1.1; font-weight: 700; }
+  .notice .date small { display: block; font-weight: 400; font-size: .7rem; opacity: .8; }
+  .quote { background: linear-gradient(160deg, var(--navy2), var(--navy)); color: #fff; border-radius: 22px; padding: 34px; position: relative; min-height: 280px; }
+  .quote::before { content: "“"; position: absolute; top: -10px; left: 24px; font-size: 7rem; color: var(--gold); opacity: .4; font-family: Georgia, serif; }
+  .q { display: none; } .q.on { display: block; animation: fadeUp .6s; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } }
+  .q p { font-size: 1.08rem; margin: 30px 0 22px; }
+  .q b { display: block; } .q span { opacity: .7; font-size: .9rem; }
+  .qdots { display: flex; gap: 8px; margin-top: 20px; }
+  .qdots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: rgba(255,255,255,.3); cursor: pointer; }
+  .qdots button.on { background: var(--gold); width: 26px; border-radius: 6px; }
+
+  /* Fee + admission */
+  .fee { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #fff; border-radius: 24px; padding: 36px; box-shadow: 0 30px 60px rgba(36,69,184,.3); }
+  .fee h3 { font-size: 1.6rem; margin-bottom: 8px; }
+  .fee p { opacity: .9; }
+  .fee .in { display: flex; gap: 10px; margin: 20px 0 14px; flex-wrap: wrap; }
+  .fee input { flex: 1; min-width: 180px; }
+  #feeResult { background: rgba(255,255,255,.12); border-radius: 14px; padding: 0; transition: padding .3s; }
+  #feeResult:not(:empty) { padding: 16px; }
+  form.adm { display: grid; gap: 14px; background: #fff; padding: 34px; border-radius: 24px; box-shadow: 0 30px 60px rgba(11,20,55,.1); }
+  input, select, textarea { width: 100%; padding: 13px 16px; border: 1.5px solid #e2e8f0; border-radius: 12px; font: inherit; font-size: .95rem; background: #fff; color: var(--ink); transition: border .2s, box-shadow .2s; }
+  input:focus, select:focus, textarea:focus { outline: 0; border-color: var(--teal); box-shadow: 0 0 0 4px rgba(20,184,166,.15); }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ok { display: none; background: #dcfce7; color: #166534; padding: 12px 16px; border-radius: 12px; font-size: .93rem; }
+
+  /* Footer */
+  footer { background: #070d26; color: #94a3b8; padding: 70px 0 26px; }
+  .fcols { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 36px; margin-bottom: 40px; }
+  footer h4 { color: #fff; margin-bottom: 14px; font-size: 1rem; }
+  footer a, footer p { display: block; font-size: .92rem; margin-bottom: 8px; }
+  footer a:hover { color: var(--gold); }
+  .copy { border-top: 1px solid #1e293b; padding-top: 22px; text-align: center; font-size: .84rem; }
+
+  /* Floating widgets */
+  .wa { position: fixed; right: 22px; bottom: 22px; width: 58px; height: 58px; border-radius: 50%; background: #25d366; color: #fff; display: grid; place-items: center; z-index: 60; box-shadow: 0 12px 30px rgba(37,211,102,.45); }
+  .wa svg { width: 30px; height: 30px; fill: #fff; }
+  .bot-btn { position: fixed; right: 22px; bottom: 92px; width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--teal)); color: #fff; border: 0; font-size: 1.6rem; cursor: pointer; z-index: 60; box-shadow: 0 12px 30px rgba(36,69,184,.45); }
+  .bot { position: fixed; right: 22px; bottom: 162px; width: 340px; max-width: calc(100vw - 44px); height: 460px; max-height: calc(100vh - 200px); background: #fff; border-radius: 22px; box-shadow: 0 30px 80px rgba(11,20,55,.3); z-index: 61; display: flex; flex-direction: column; overflow: hidden; transform-origin: bottom right; transform: scale(.6) translateY(30px); opacity: 0; pointer-events: none; transition: all .3s cubic-bezier(.2,.8,.2,1); }
+  .bot.on { transform: none; opacity: 1; pointer-events: auto; }
+  .bot-h { background: linear-gradient(135deg, var(--navy2), var(--blue)); color: #fff; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+  .bot-h small { display: block; opacity: .8; font-size: .75rem; }
+  .bot-h button { background: none; border: 0; color: #fff; font-size: 1.3rem; cursor: pointer; }
+  .msgs { flex: 1; overflow-y: auto; padding: 16px; background: var(--light); display: flex; flex-direction: column; gap: 10px; }
+  .m { max-width: 85%; padding: 10px 14px; border-radius: 16px; font-size: .88rem; line-height: 1.5; white-space: pre-line; }
+  .m.b { background: #fff; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+  .m.u { background: var(--blue); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .quick { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 12px 0; background: #fff; }
+  .quick button { border: 1px solid #cbd5e1; background: #fff; border-radius: 999px; padding: 5px 11px; font: inherit; font-size: .76rem; cursor: pointer; }
+  .quick button:hover { border-color: var(--teal); color: var(--teal); }
+  .bot form { display: flex; gap: 8px; padding: 12px; background: #fff; }
+  .bot form input { padding: 10px 14px; border-radius: 999px; }
+  .bot form button { border: 0; background: var(--teal); color: #fff; border-radius: 50%; width: 42px; height: 42px; flex-shrink: 0; cursor: pointer; font-size: 1.1rem; }
+
+  .demo-badge { position: fixed; left: 16px; bottom: 16px; z-index: 60; background: rgba(11,20,55,.85); color: #fff; font-size: .72rem; padding: 6px 12px; border-radius: 999px; backdrop-filter: blur(8px); }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 1024px) {
+    .auto-grid { grid-template-columns: repeat(2, 1fr); }
+    .flips { grid-template-columns: repeat(3, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 860px) {
-    nav { display: none; position: absolute; top: 68px; left: 0; right: 0; background: #fff; padding: 10px 20px; box-shadow: 0 6px 12px rgba(0,0,0,.08); }
-    nav.open { display: block; }
-    nav a { display: block; margin: 10px 0; }
-    .menu-btn { display: block; }
-    .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .grid3, .about, .split, footer .cols { grid-template-columns: 1fr; }
-    .gallery { grid-template-columns: repeat(2, 1fr); }
-    .row { grid-template-columns: 1fr; }
-    .btn-white { margin: 10px 0 0; }
+    .links { position: fixed; top: 76px; left: 0; right: 0; background: rgba(11,20,55,.97); flex-direction: column; padding: 24px; gap: 18px; transform: translateY(-130%); transition: transform .35s; }
+    .links.open { transform: none; }
+    .burger { display: block; }
+    #scene { opacity: .5; }
+    .scroll-hint { display: none; }
+    .stats .row { grid-template-columns: repeat(2, 1fr); }
+    .about, .app, .two, .fee-adm { grid-template-columns: 1fr !important; gap: 40px; }
+    .cards { grid-template-columns: 1fr; }
+    .flips { grid-template-columns: repeat(2, 1fr); }
+    .fcols { grid-template-columns: 1fr 1fr; }
+    .fc1 { left: 10px; } .fc2 { right: 10px; }
+    .carousel { width: 200px; height: 140px; }
+    .carousel-stage { height: 320px; }
+    section { padding: 80px 0; }
+  }
+  @media (max-width: 560px) {
+    .auto-grid, .steps, .frow, .ticks { grid-template-columns: 1fr; }
+    .flips { grid-template-columns: 1fr; }
+    .fcols { grid-template-columns: 1fr; }
+    .hero p { font-size: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
   }
 </style>
 </head>
 <body>
 
-<div class="topbar"><div class="wrap">
-  <span>📞 +91 93142 96400 &nbsp; ✉️ jagritigroup.jpr@gmail.com</span>
-  <span>Govt. of Rajasthan Recognised • RBSE Curriculum</span>
-</div></div>
+<!-- ================= Header ================= -->
+<header id="top">
+  <div class="wrap nav">
+    <a href="#" class="logo"><div class="mark">JVM</div><div>JVM Senior Secondary School<small>Jagriti Shikshan Sansthan · Since 1993</small></div></a>
+    <nav class="links" id="links">
+      <a href="#about">About</a>
+      <a href="#academics">Academics</a>
+      <a href="#smart">Smart School</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#fees">Pay Fees</a>
+      <a href="#admission" class="btn btn-gold sm">Apply Now</a>
+    </nav>
+    <button class="burger" aria-label="Menu" onclick="document.getElementById('links').classList.toggle('open')">☰</button>
+  </div>
+</header>
 
-<header><div class="wrap">
-  <a href="#" class="logo"><div class="badge">JVM</div><div>JVM Senior Secondary School<small>Jagriti Shikshan Sansthan • Since 1993</small></div></div></a>
-  <button class="menu-btn" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#facilities">Facilities</a>
-    <a href="#notices">Notices</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#fees">Pay Fees</a>
-    <a href="#admission">Admission</a>
-  </nav>
-</div></header>
+<!-- ================= Hero (3D) ================= -->
+<section class="hero">
+  <canvas id="scene" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="chip"><span class="dot"></span> Admissions Open · Session 2027–28</div>
+      <h1>Shaping <span class="grad-text">Bright Futures</span> in Jhotwara Since 1993</h1>
+      <p>JVM Senior Secondary School blends strong values, caring teachers and modern smart-school technology to help every child learn, grow and shine.</p>
+      <div class="ctas">
+        <a href="#admission" class="btn btn-gold">Apply for Admission →</a>
+        <a href="#fees" class="btn btn-ghost">Pay Fees Online</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span></span>Scroll</div>
+</section>
 
-<div class="hero"><div class="wrap">
-  <span class="pill">🎓 Admissions Open 2027–28</span>
-  <h1>Jhotwara का भरोसेमंद स्कूल<br>30+ वर्षों से</h1>
-  <p>JVM Senior Secondary School – holistic education with strong values, dedicated teachers and a caring environment for every child.</p>
-  <a href="#admission" class="btn btn-gold">Apply for Admission</a>
-  <a href="#fees" class="btn btn-white">Pay Fees Online</a>
-</div></div>
-
-<div class="wrap">
-  <div class="stats">
-    <div><b>1993</b>Established</div>
-    <div><b>30+</b>Years of Trust</div>
-    <div><b>RBSE</b>Curriculum</div>
-    <div><b>Nursery–12</b>Classes*</div>
+<!-- ================= Stats ================= -->
+<div class="stats">
+  <div class="wrap row">
+    <div class="stat tilt reveal"><b data-count="33" data-suffix="+">0</b><span>Years of Excellence</span></div>
+    <div class="stat tilt reveal"><b data-count="1993">0</b><span>Year Established</span></div>
+    <div class="stat tilt reveal"><b data-text="RBSE">RBSE</b><span>Curriculum</span></div>
+    <div class="stat tilt reveal"><b data-count="100" data-suffix="%">0</b><span>Focus on Every Child</span></div>
   </div>
 </div>
 
-<section id="about"><div class="wrap about">
-  <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=900" alt="Students in classroom">
-  <div>
-    <h2 style="color:var(--blue);font-size:2rem;margin-bottom:12px">About Our School</h2>
-    <p>Jagriti Shikshan Sansthan was established in 1993 by Mr. Rajendra Sharma and Mrs. Manju Sharma with a vision to provide quality education to every child of Jhotwara.</p>
-    <p style="margin-top:10px">We follow the RBSE curriculum and focus on all-round development – academics, sports, arts, and values – so our students become confident and responsible citizens.</p>
-    <a href="#admission" class="btn btn-blue" style="margin-top:18px">Visit the School</a>
-  </div>
-</div></section>
-
-<section id="facilities" class="alt"><div class="wrap">
-  <div class="title"><h2>Why Parents Choose JVM</h2><p>Everything your child needs to grow</p></div>
-  <div class="grid3">
-    <div class="card"><div class="ic">👩‍🏫</div><h3>Experienced Teachers</h3><p>Dedicated faculty who give personal attention to every student.</p></div>
-    <div class="card"><div class="ic">💻</div><h3>Computer Lab</h3><p>Digital learning and computer education from early classes.</p></div>
-    <div class="card"><div class="ic">🔬</div><h3>Science Labs</h3><p>Practical learning in physics, chemistry and biology.</p></div>
-    <div class="card"><div class="ic">⚽</div><h3>Sports & Games</h3><p>Regular sports, yoga and annual sports day.</p></div>
-    <div class="card"><div class="ic">🚌</div><h3>Transport</h3><p>Safe bus facility covering Jhotwara and nearby areas.</p></div>
-    <div class="card"><div class="ic">📱</div><h3>Parent Updates</h3><p>Attendance, fees and notices directly on WhatsApp.</p></div>
-  </div>
-</div></section>
-
-<section id="notices"><div class="wrap">
-  <div class="title"><h2>Latest Notices</h2><p>Updates for parents and students</p></div>
-  <ul class="notices">
-    <li>Admissions open for session 2027–28. Limited seats. <span>01 Nov 2026</span></li>
-    <li>Diwali vacation from 6 Nov to 12 Nov. School reopens 13 Nov. <span>30 Oct 2026</span></li>
-    <li>Parent–Teacher Meeting on Saturday, 21 Nov, 10 AM – 1 PM. <span>28 Oct 2026</span></li>
-    <li>November fee due date: 10 Nov. Pay online to avoid late fee. <span>25 Oct 2026</span></li>
-  </ul>
-</div></section>
-
-<section id="gallery" class="alt"><div class="wrap">
-  <div class="title"><h2>Gallery</h2><p>Life at JVM</p></div>
-  <div class="gallery">
-    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=500" alt="Classroom">
-    <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=500" alt="Students">
-    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=500" alt="Sports">
-    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=500" alt="Learning">
-  </div>
-  <p style="text-align:center;margin-top:12px;color:#64748b;font-size:.9rem">* Sample photos – will be replaced with actual school photos.</p>
-</div></section>
-
-<section><div class="wrap split">
-  <div id="fees" class="fee-box">
-    <h3>💳 Pay School Fees Online</h3>
-    <p>Enter the student's admission number to see pending fees and pay by UPI, card or net banking.</p>
-    <input id="admNo" placeholder="Admission No. (e.g. A101)">
-    <button class="btn btn-gold" onclick="checkFee()">Check & Pay</button>
-    <div id="feeResult" style="margin-top:14px"></div>
-  </div>
-
-  <div id="admission">
-    <h2 style="color:var(--blue);margin-bottom:10px">Admission Enquiry</h2>
-    <p style="margin-bottom:14px;color:#64748b">Fill the form – our office will contact you on WhatsApp.</p>
-    <form onsubmit="return sendEnquiry(event)">
-      <div class="row">
-        <input id="pName" placeholder="Parent's Name" required>
-        <input id="pPhone" placeholder="Mobile Number" pattern="[0-9]{10}" title="10 digit mobile number" required>
-      </div>
-      <div class="row">
-        <input id="sName" placeholder="Student's Name" required>
-        <select id="sClass" required>
-          <option value="">Class for Admission</option>
-          <option>Nursery</option><option>LKG</option><option>UKG</option>
-          <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
-          <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
-          <option>11</option><option>12</option>
-        </select>
-      </div>
-      <textarea id="msg" rows="3" placeholder="Any question? (optional)"></textarea>
-      <button class="btn btn-blue" type="submit">Submit Enquiry</button>
-      <div class="ok" id="ok">✅ Thank you! Our office will contact you shortly.</div>
-    </form>
-  </div>
-</div></section>
-
-<section class="alt" style="padding:0"><iframe title="School location" src="https://www.google.com/maps?q=Jagriti+Marg+Niwaru+Road+Jhotwara+Jaipur&output=embed" width="100%" height="320" style="border:0;display:block" loading="lazy"></iframe></section>
-
-<footer><div class="wrap">
-  <div class="cols">
-    <div>
-      <h4>JVM Senior Secondary School</h4>
-      <p>396, Udyog Nagar, Jagriti Marg, Niwaru Road, Jhotwara, Jaipur – 302012</p>
-      <p>📞 +91 93142 96400</p>
-      <p>✉️ jagritigroup.jpr@gmail.com</p>
+<!-- ================= About ================= -->
+<section id="about">
+  <div class="wrap about">
+    <div class="about-visual reveal">
+      <div class="main tilt"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1000&q=80" alt="Students learning in a classroom" loading="lazy"></div>
+      <div class="float-card fc1"><div class="ic">🏆</div><div><b>33+ Years</b><br><small>of trust in Jhotwara</small></div></div>
+      <div class="float-card fc2"><div class="ic">👩‍🏫</div><div><b>Caring Teachers</b><br><small>Personal attention</small></div></div>
     </div>
-    <div><h4>Quick Links</h4><a href="#about">About</a><a href="#admission">Admission</a><a href="#fees">Pay Fees</a><a href="#notices">Notices</a></div>
-    <div><h4>Parents</h4><a href="#">Results</a><a href="#">Fee Structure</a><a href="#">Transfer Certificate</a><a href="#">Holiday List</a></div>
+    <div class="reveal">
+      <span class="eyebrow">About JVM</span>
+      <h2>A School Built on Values, Driven by <span style="color:var(--teal)">Excellence</span></h2>
+      <p>Jagriti Shikshan Sansthan was founded in 1993 by Mr. Rajendra Sharma and Mrs. Manju Sharma with one belief: every child deserves an education that teaches them to think deeply and critically.</p>
+      <p>Today, JVM Senior Secondary School follows the RBSE curriculum and is recognised by the Government of Rajasthan. We focus on academics, sports, arts and character so our students grow into confident, responsible citizens.</p>
+      <ul class="ticks">
+        <li>RBSE Curriculum</li><li>Govt. Recognised</li>
+        <li>Holistic Development</li><li>Safe Campus</li>
+        <li>Sports &amp; Arts</li><li>Smart Parent Updates</li>
+      </ul>
+      <a href="#admission" class="btn btn-navy">Book a School Visit</a>
+    </div>
   </div>
-  <div class="copy">© 2026 Jagriti Shikshan Sansthan. All rights reserved. <br><small>Demo design – not the official website.</small></div>
-</div></footer>
+</section>
 
-<a class="wa-float" href="https://wa.me/919314296400?text=Hello%2C%20I%20want%20to%20know%20about%20admission" target="_blank" rel="noopener" title="Chat on WhatsApp">💬</a>
+<!-- ================= Why JVM ================= -->
+<section class="alt">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Why Parents Choose Us</span><h2>Everything Your Child Needs to Grow</h2><p>Strong academics, a caring environment and facilities that make learning exciting.</p></div>
+    <div class="cards">
+      <div class="card tilt reveal"><div class="ic pop">👩‍🏫</div><h3>Experienced Faculty</h3><p>Dedicated teachers who know every student by name and guide them personally.</p></div>
+      <div class="card tilt reveal"><div class="ic pop">💻</div><h3>Smart Classrooms</h3><p>Digital boards and computer labs that make concepts clear and learning fun.</p></div>
+      <div class="card tilt reveal"><div class="ic pop">🔬</div><h3>Science Labs</h3><p>Hands-on experiments in Physics, Chemistry and Biology for real understanding.</p></div>
+      <div class="card tilt reveal"><div class="ic pop">⚽</div><h3>Sports &amp; Yoga</h3><p>Daily physical activity, inter-school competitions and an annual sports meet.</p></div>
+      <div class="card tilt reveal"><div class="ic pop">🎨</div><h3>Arts &amp; Culture</h3><p>Music, dance, drawing and stage events that build confidence and creativity.</p></div>
+      <div class="card tilt reveal"><div class="ic pop">🚌</div><h3>Safe Transport</h3><p>GPS-enabled buses covering Jhotwara and nearby areas with trained staff.</p></div>
+    </div>
+  </div>
+</section>
 
+<!-- ================= Academics (flip cards) ================= -->
+<section id="academics">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Academics</span><h2>Learning at Every Stage</h2><p>Hover or tap a card to see what each stage offers.</p></div>
+    <div class="flips">
+      <div class="flip reveal" onclick="this.classList.toggle('on')"><div class="flip-inner">
+        <div class="face front"><div class="em">🧸</div><h3>Pre-Primary</h3><span>Nursery · LKG · UKG</span></div>
+        <div class="face back"><b>Play-way Learning</b>Phonics, numbers, rhymes, art and activity-based learning in a warm, safe space.</div>
+      </div></div>
+      <div class="flip reveal" onclick="this.classList.toggle('on')"><div class="flip-inner">
+        <div class="face front"><div class="em">📚</div><h3>Primary</h3><span>Classes 1 – 5</span></div>
+        <div class="face back"><b>Strong Foundations</b>Reading, writing, maths and EVS with regular assessments and parent updates.</div>
+      </div></div>
+      <div class="flip reveal" onclick="this.classList.toggle('on')"><div class="flip-inner">
+        <div class="face front"><div class="em">🧭</div><h3>Middle</h3><span>Classes 6 – 8</span></div>
+        <div class="face back"><b>Curious Minds</b>Science labs, computer education, projects and co-curricular clubs.</div>
+      </div></div>
+      <div class="flip reveal" onclick="this.classList.toggle('on')"><div class="flip-inner">
+        <div class="face front"><div class="em">🎯</div><h3>Secondary</h3><span>Classes 9 – 10</span></div>
+        <div class="face back"><b>Board Ready</b>Focused RBSE board preparation, test series and doubt-clearing sessions.</div>
+      </div></div>
+      <div class="flip reveal" onclick="this.classList.toggle('on')"><div class="flip-inner">
+        <div class="face front"><div class="em">🎓</div><h3>Senior Secondary</h3><span>Classes 11 – 12</span></div>
+        <div class="face back"><b>Career Focused</b>Science, Commerce and Arts streams with career guidance and counselling.</div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Smart School Automation ================= -->
+<section id="smart" class="dark">
+  <div class="orb o1"></div><div class="orb o2"></div>
+  <div class="wrap" style="position:relative">
+    <div class="head reveal"><span class="eyebrow" style="color:var(--gold)">Smart School</span><h2>A Fully Automated, <span class="grad-text">Paperless Campus</span></h2><p>Technology that saves time for teachers, keeps parents informed and runs the school office on autopilot.</p></div>
+    <div class="auto-grid">
+      <div class="auto tilt reveal"><span class="tag">LIVE DEMO</span><div class="ic pop">💳</div><h3>Online Fees &amp; Auto Reminders</h3><p>UPI, card and net-banking payments. Automatic WhatsApp reminders before due dates and instant digital receipts.</p></div>
+      <div class="auto tilt reveal"><span class="tag">LIVE DEMO</span><div class="ic pop">📝</div><h3>Admission CRM</h3><p>Online applications with document upload. Every enquiry gets an instant reply and automatic follow-ups.</p></div>
+      <div class="auto tilt reveal"><span class="tag">LIVE DEMO</span><div class="ic pop">🤖</div><h3>24×7 AI Chat Assistant</h3><p>Answers parents' questions about fees, timings, admissions and transport on the website and WhatsApp.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">✅</div><h3>Smart Attendance</h3><p>Mobile app, RFID card or face-recognition attendance. Parents get an alert if their child is absent.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📊</div><h3>Digital Report Cards</h3><p>Teachers enter marks once. RBSE-format report cards and rank lists are generated automatically.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📱</div><h3>Parent Mobile App</h3><p>Homework, notices, results, fee status, timetable and photos, all in one app for parents.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">🚌</div><h3>Live Bus Tracking</h3><p>GPS tracking of school buses with pickup and drop alerts sent to parents in real time.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">🗓️</div><h3>Auto Timetable</h3><p>Clash-free timetables in minutes and automatic substitute teacher allocation when staff are on leave.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">🧠</div><h3>AI Question Papers &amp; Online Tests</h3><p>Generate worksheets and question papers from the syllabus. Online tests are auto-checked.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">👥</div><h3>Staff Payroll &amp; HR</h3><p>Teacher attendance, leave management and salary slips generated automatically every month.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📜</div><h3>One-Click Certificates</h3><p>Transfer, bonafide and character certificates and ID cards generated instantly from student records.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📢</div><h3>Bulk WhatsApp &amp; SMS</h3><p>Send holidays, PTM dates, exam schedules and event updates to all parents in one click.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📚</div><h3>Library &amp; Inventory</h3><p>Barcode-based book issue and return, overdue alerts, and tracking of uniforms, books and stock.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">🛡️</div><h3>Visitor &amp; Gate Pass</h3><p>Digital visitor entry and secure student pickup with OTP verification for parents.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">📈</div><h3>Management Dashboard</h3><p>Live view of fee collection, pending dues, admissions, attendance and results for the school owner.</p></div>
+      <div class="auto tilt reveal"><div class="ic pop">🌐</div><h3>Google &amp; Social Growth</h3><p>Google Business profile, review collection and social media posts to bring in more admissions.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Parent App ================= -->
+<section class="alt">
+  <div class="wrap app">
+    <div class="phone-stage reveal">
+      <div class="phone" id="phone">
+        <div class="screen">
+          <div class="bar"><span>9:41</span><span>●●● 5G</span></div>
+          <h4>Good morning, Mr. Sharma 👋</h4>
+          <div class="sub">Aarav Sharma · Class 6</div>
+          <div id="notifs"></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Parent App</span>
+      <h2 style="font-size:clamp(1.9rem,3.4vw,2.6rem);line-height:1.2;font-weight:800">Stay Connected With Your Child, Every Day</h2>
+      <ul>
+        <li><div class="ic">🔔</div><div><b>Instant Alerts</b><span>Attendance, fee reminders and important notices on your phone.</span></div></li>
+        <li><div class="ic">📖</div><div><b>Homework &amp; Diary</b><span>Daily homework and class updates from teachers.</span></div></li>
+        <li><div class="ic">🏅</div><div><b>Results &amp; Progress</b><span>Report cards and test scores the moment they are published.</span></div></li>
+        <li><div class="ic">💳</div><div><b>One-Tap Fee Payment</b><span>Pay securely and get your receipt instantly.</span></div></li>
+      </ul>
+      <a href="#fees" class="btn btn-navy">Try Fee Payment Demo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Gallery (3D carousel) ================= -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Gallery</span><h2>Life at JVM</h2><p>Hover to pause the 3D gallery.</p></div>
+    <div class="carousel-stage reveal"><div class="carousel" id="carousel"></div></div>
+    <p style="text-align:center;color:var(--muted);font-size:.85rem">Sample photos. These will be replaced with real school photos.</p>
+  </div>
+</section>
+
+<!-- ================= Admission steps ================= -->
+<section class="alt">
+  <div class="wrap">
+    <div class="head reveal"><span class="eyebrow">Admission Process</span><h2>Admission in 4 Simple Steps</h2><p>Fully online. No queues, no paperwork hassle.</p></div>
+    <div class="steps">
+      <div class="step tilt reveal"><h3>Submit Enquiry</h3><p>Fill the online form below. You get an instant confirmation on WhatsApp.</p></div>
+      <div class="step tilt reveal"><h3>Campus Visit</h3><p>Pick a convenient time to visit the school and meet our teachers.</p></div>
+      <div class="step tilt reveal"><h3>Upload Documents</h3><p>Upload birth certificate, Aadhaar and previous marksheet online.</p></div>
+      <div class="step tilt reveal"><h3>Confirm &amp; Pay</h3><p>Pay the admission fee online and receive your confirmation instantly.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Notices + Testimonials ================= -->
+<section>
+  <div class="wrap two">
+    <div class="reveal">
+      <span class="eyebrow">Notice Board</span>
+      <h2 style="font-size:2rem;font-weight:800;margin-bottom:22px">Latest Updates</h2>
+      <div class="notice"><div class="date">01<small>NOV</small></div><div><b>Admissions Open for 2027–28</b><br><small style="color:var(--muted)">Limited seats in all classes. Apply online today.</small></div></div>
+      <div class="notice"><div class="date">06<small>NOV</small></div><div><b>Diwali Vacation</b><br><small style="color:var(--muted)">School closed 6–12 Nov. Reopens 13 Nov.</small></div></div>
+      <div class="notice"><div class="date">10<small>NOV</small></div><div><b>November Fee Due Date</b><br><small style="color:var(--muted)">Pay online to avoid late fee.</small></div></div>
+      <div class="notice"><div class="date">21<small>NOV</small></div><div><b>Parent–Teacher Meeting</b><br><small style="color:var(--muted)">Saturday, 10 AM – 1 PM.</small></div></div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Parents Speak</span>
+      <h2 style="font-size:2rem;font-weight:800;margin-bottom:22px">What Parents Say</h2>
+      <div class="quote tilt">
+        <div class="q on"><p>The teachers give real personal attention. My daughter's confidence has grown so much in just one year.</p><b>Sunita Gupta</b><span>Parent, Class 7</span></div>
+        <div class="q"><p>Getting fee reminders and attendance alerts on WhatsApp makes life so easy. I always know what's happening.</p><b>Mahesh Choudhary</b><span>Parent, Class 10</span></div>
+        <div class="q"><p>A school with values. Both my children study here and we have always felt part of the JVM family.</p><b>Rakesh Saini</b><span>Parent, Classes 3 &amp; 9</span></div>
+        <div class="qdots" id="qdots"></div>
+      </div>
+      <p style="color:var(--muted);font-size:.8rem;margin-top:10px">Sample testimonials for demo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Fees + Admission ================= -->
+<section class="alt" id="admission">
+  <div class="wrap two fee-adm" style="align-items:start">
+    <div id="fees" class="fee tilt reveal">
+      <h3>💳 Pay School Fees Online</h3>
+      <p>Enter the student's admission number to see pending fees and pay by UPI, card or net banking.</p>
+      <div class="in">
+        <input id="admNo" placeholder="Admission No. (try A101)" aria-label="Admission number">
+        <button class="btn btn-gold" onclick="checkFee()">Check Dues</button>
+      </div>
+      <div id="feeResult"></div>
+      <p style="font-size:.8rem;margin-top:14px;opacity:.75">Demo IDs: A101, A102, A103</p>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">Admission Enquiry</span>
+      <h2 style="font-size:2rem;font-weight:800;margin-bottom:18px">Start Your Child's Journey</h2>
+      <form class="adm" onsubmit="return sendEnquiry(event)">
+        <div class="frow">
+          <input id="pName" placeholder="Parent's Name" required>
+          <input id="pPhone" placeholder="Mobile Number" pattern="[0-9]{10}" title="10-digit mobile number" required>
+        </div>
+        <div class="frow">
+          <input id="sName" placeholder="Student's Name" required>
+          <select id="sClass" required>
+            <option value="">Class Applying For</option>
+            <option>Nursery</option><option>LKG</option><option>UKG</option>
+            <option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option>
+            <option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option>
+            <option>Class 11</option><option>Class 12</option>
+          </select>
+        </div>
+        <textarea id="msg" rows="3" placeholder="Any questions? (optional)"></textarea>
+        <button class="btn btn-navy" type="submit" style="justify-content:center">Submit Enquiry →</button>
+        <div class="ok" id="ok">✅ Thank you! Your enquiry has been sent. Our office will contact you on WhatsApp shortly.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<iframe title="School location on Google Maps" src="https://www.google.com/maps?q=Jagriti+Marg+Niwaru+Road+Jhotwara+Jaipur&output=embed" width="100%" height="340" style="border:0;display:block;filter:saturate(.9)" loading="lazy"></iframe>
+
+<!-- ================= Footer ================= -->
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div>
+        <a href="#" class="logo" style="color:#fff;margin-bottom:16px"><div class="mark">JVM</div><div>JVM Senior Secondary School<small>Since 1993</small></div></a>
+        <p>396, Udyog Nagar, Jagriti Marg, Niwaru Road, Jhotwara, Jaipur – 302012</p>
+        <p>📞 +91 93142 96400</p>
+        <p>✉️ jagritigroup.jpr@gmail.com</p>
+      </div>
+      <div><h4>School</h4><a href="#about">About Us</a><a href="#academics">Academics</a><a href="#gallery">Gallery</a><a href="#smart">Smart School</a></div>
+      <div><h4>Parents</h4><a href="#fees">Pay Fees</a><a href="#">Results</a><a href="#">Fee Structure</a><a href="#">Holiday List</a></div>
+      <div><h4>Admissions</h4><a href="#admission">Apply Online</a><a href="#">Required Documents</a><a href="#">Transfer Certificate</a><a href="#">Contact Office</a></div>
+    </div>
+    <div class="copy">© 2026 Jagriti Shikshan Sansthan. All rights reserved.<br><small>Demo design. Not the official website.</small></div>
+  </div>
+</footer>
+
+<!-- ================= Floating widgets ================= -->
+<a class="wa" href="https://wa.me/919314296400?text=Hello%2C%20I%20would%20like%20to%20know%20about%20admissions" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 32 32"><path d="M16 3C9 3 3.4 8.6 3.4 15.5c0 2.4.7 4.7 1.9 6.7L3 29l7-2.2c1.9 1 4 1.6 6.1 1.6 7 0 12.6-5.6 12.6-12.5S23 3 16 3zm0 22.9c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-4.1 1.3 1.3-4-.3-.4c-1.1-1.7-1.7-3.6-1.7-5.6C5.4 9.7 10.1 5 16 5s10.6 4.7 10.6 10.5S21.9 25.9 16 25.9zm5.8-7.8c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.6-.9-.8-1.6-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 .8.4 1.4.6 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.7-.4z"/></svg>
+</a>
+<button class="bot-btn" id="botBtn" aria-label="Open chat assistant">🤖</button>
+<div class="bot" id="bot" role="dialog" aria-label="JVM chat assistant">
+  <div class="bot-h"><div><b>JVM Assistant</b><small>● Online 24×7 · Instant answers</small></div><button id="botClose" aria-label="Close">×</button></div>
+  <div class="msgs" id="msgs"></div>
+  <div class="quick" id="quick"></div>
+  <form id="botForm"><input id="botIn" placeholder="Ask about fees, admission..." autocomplete="off"><button aria-label="Send">➤</button></form>
+</div>
+<div class="demo-badge">Demo website</div>
+
+<!-- ================= Three.js 3D hero ================= -->
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('scene');
+const hero = document.querySelector('.hero');
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+} catch (e) {
+  document.body.classList.add('no3d');
+  throw e;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+camera.position.set(0, 0, 14);
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(5, 8, 7); scene.add(sun);
+const tealLight = new THREE.PointLight(0x14b8a6, 40, 30); tealLight.position.set(-4, -3, 5); scene.add(tealLight);
+const goldLight = new THREE.PointLight(0xfbbf24, 40, 30); goldLight.position.set(6, 4, 4); scene.add(goldLight);
+
+const mat = (color, extra = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.35, metalness: 0.15, ...extra });
+const world = new THREE.Group(); scene.add(world);
+const floaters = [];
+function add(obj, x, y, z, speed = 1) {
+  obj.position.set(x, y, z);
+  obj.userData = { baseY: y, phase: Math.random() * Math.PI * 2, speed };
+  world.add(obj); floaters.push(obj);
+  return obj;
+}
+
+// Graduation cap
+const cap = new THREE.Group();
+const board = new THREE.Mesh(new THREE.BoxGeometry(3, 0.14, 3), mat(0x1e293b));
+const crown = new THREE.Mesh(new THREE.CylinderGeometry(1.0, 1.15, 0.9, 40), mat(0x1e293b)); crown.position.y = -0.5;
+const knob = new THREE.Mesh(new THREE.SphereGeometry(0.13, 20, 20), mat(0xfbbf24, { metalness: .6 })); knob.position.y = 0.12;
+const cord = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.6), mat(0xfbbf24)); cord.position.set(0.75, -0.6, 0.75); cord.rotation.z = 0.15;
+const tassel = new THREE.Mesh(new THREE.ConeGeometry(0.16, 0.5, 16), mat(0xfbbf24)); tassel.position.set(0.85, -1.45, 0.75);
+cap.add(board, crown, knob, cord, tassel);
+cap.rotation.set(0.35, 0.6, -0.15);
+add(cap, 3.4, 2.1, 0, 0.8);
+
+// Globe
+const globe = new THREE.Group();
+const sphere = new THREE.Mesh(new THREE.SphereGeometry(1.3, 48, 48), mat(0x14b8a6, { roughness: .5 }));
+const grid = new THREE.Mesh(new THREE.SphereGeometry(1.33, 18, 12), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.25 }));
+const ring = new THREE.Mesh(new THREE.TorusGeometry(1.7, 0.05, 16, 80), mat(0xfbbf24, { metalness: .7, roughness: .25 })); ring.rotation.x = Math.PI / 2.3;
+globe.add(sphere, grid, ring);
+add(globe, 6.6, -0.3, -2, 0.6);
+
+// Stack of books
+const books = new THREE.Group();
+[[0x2445b8, 0], [0xef4444, 0.42], [0xfbbf24, 0.84]].forEach(([c, y], i) => {
+  const b = new THREE.Group();
+  const cover = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.38, 3.1), mat(c));
+  const pages = new THREE.Mesh(new THREE.BoxGeometry(2.3, 0.3, 3.0), mat(0xf8fafc, { roughness: .9 })); pages.position.x = 0.08;
+  b.add(cover, pages); b.position.y = y; b.rotation.y = (i - 1) * 0.18;
+  books.add(b);
+});
+books.rotation.set(0.45, -0.5, 0.1);
+add(books, 3.2, -2.6, 1, 0.7);
+
+// Atom
+const atom = new THREE.Group();
+atom.add(new THREE.Mesh(new THREE.SphereGeometry(0.38, 28, 28), mat(0xfbbf24, { emissive: 0x7c4a03, metalness: .4 })));
+const electrons = [];
+for (let i = 0; i < 3; i++) {
+  const orbit = new THREE.Group();
+  orbit.add(new THREE.Mesh(new THREE.TorusGeometry(1.25, 0.03, 12, 90), new THREE.MeshBasicMaterial({ color: 0x93c5fd, transparent: true, opacity: .7 })));
+  const e = new THREE.Mesh(new THREE.SphereGeometry(0.12, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  orbit.add(e); electrons.push({ e, off: i * 2.1 });
+  orbit.rotation.set(i * Math.PI / 3, i * 0.6, 0);
+  atom.add(orbit);
+}
+add(atom, 7.4, 3.2, -1, 1.1);
+
+// Pencil
+const pencil = new THREE.Group();
+const body = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 3, 6), mat(0xfbbf24));
+const tip = new THREE.Mesh(new THREE.ConeGeometry(0.2, 0.55, 6), mat(0xfde68a)); tip.position.y = -1.77;
+const lead = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.18, 6), mat(0x1e293b)); lead.position.y = -2.0;
+const eraser = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.35, 16), mat(0xf472b6)); eraser.position.y = 1.67;
+pencil.add(body, tip, lead, eraser);
+pencil.rotation.set(0.3, 0, 0.9);
+add(pencil, 7.2, -3.1, 0.5, 0.9);
+
+// Small floating shapes
+const shapeGeos = [new THREE.IcosahedronGeometry(0.35), new THREE.OctahedronGeometry(0.35), new THREE.TorusGeometry(0.3, 0.1, 12, 30)];
+const shapeCols = [0x60a5fa, 0x14b8a6, 0xfbbf24, 0xf472b6];
+for (let i = 0; i < 10; i++) {
+  const m = new THREE.Mesh(shapeGeos[i % 3], mat(shapeCols[i % 4]));
+  add(m, 1 + Math.random() * 8, -4 + Math.random() * 8, -4 + Math.random() * 3, 0.5 + Math.random());
+}
+
+// Star particles
+const pts = new Float32Array(900 * 3);
+for (let i = 0; i < pts.length; i += 3) { pts[i] = (Math.random() - .5) * 40; pts[i + 1] = (Math.random() - .5) * 24; pts[i + 2] = -Math.random() * 20; }
+const starGeo = new THREE.BufferGeometry(); starGeo.setAttribute('position', new THREE.BufferAttribute(pts, 3));
+const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.06, transparent: true, opacity: .8 }));
+scene.add(stars);
+
+// Interaction
+const mouse = { x: 0, y: 0 };
+addEventListener('pointermove', e => { mouse.x = e.clientX / innerWidth - .5; mouse.y = e.clientY / innerHeight - .5; });
+
+function resize() {
+  const w = hero.clientWidth, h = hero.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  const mobile = camera.aspect < 1;
+  world.position.x = mobile ? -4.6 : 0;
+  world.position.y = mobile ? -1.2 : 0;
+  world.scale.setScalar(mobile ? 0.62 : 1);
+}
+addEventListener('resize', resize); resize();
+
+let visible = true;
+new IntersectionObserver(([e]) => visible = e.isIntersecting).observe(hero);
+
+const clock = new THREE.Clock();
+(function loop() {
+  requestAnimationFrame(loop);
+  if (!visible) return;
+  const t = clock.getElapsedTime();
+  floaters.forEach(o => {
+    const d = o.userData;
+    o.position.y = d.baseY + Math.sin(t * d.speed + d.phase) * 0.35;
+    o.rotation.y += 0.004 * d.speed;
+  });
+  globe.rotation.y += 0.006;
+  cap.rotation.z = -0.15 + Math.sin(t * .8) * .08;
+  electrons.forEach(({ e, off }) => { e.position.set(Math.cos(t * 2 + off) * 1.25, Math.sin(t * 2 + off) * 1.25, 0); });
+  stars.rotation.y = t * 0.01;
+  world.rotation.y += ((mouse.x * 0.35) - world.rotation.y) * 0.05;
+  world.rotation.x += ((mouse.y * 0.2) - world.rotation.x) * 0.05;
+  camera.position.y = -Math.min(scrollY, innerHeight) * 0.004;
+  renderer.render(scene, camera);
+})();
+</script>
+
+<!-- ================= Page interactions ================= -->
 <script>
-  // Demo data – in the real system this comes from the fee database.
-  const demoFees = {
-    A101: { name: 'Aarav Sharma', cls: '6', due: 1800, month: 'November' },
-    A102: { name: 'Priya Meena', cls: '9', due: 0, month: 'November' },
-    A103: { name: 'Rohit Saini', cls: '3', due: 3600, month: 'October + November' }
-  };
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const touch = matchMedia('(hover: none)').matches;
 
-  function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// Header background on scroll
+addEventListener('scroll', () => document.getElementById('top').classList.toggle('scrolled', scrollY > 40));
+document.querySelectorAll('#links a').forEach(a => a.addEventListener('click', () => $('links').classList.remove('open')));
 
-  function checkFee() {
-    const id = document.getElementById('admNo').value.trim().toUpperCase();
-    const out = document.getElementById('feeResult');
-    const s = demoFees[id];
-    if (!s) { out.innerHTML = 'No student found. Try <b>A101</b>, <b>A102</b> or <b>A103</b> (demo).'; return; }
-    if (s.due === 0) { out.innerHTML = `✅ <b>${esc(s.name)}</b> (Class ${esc(s.cls)}) – no fees pending. Thank you!`; return; }
-    out.innerHTML = `<b>${esc(s.name)}</b> (Class ${esc(s.cls)})<br>Pending: <b>₹${s.due.toLocaleString('en-IN')}</b> (${esc(s.month)})<br>
-      <button class="btn btn-gold" style="margin-top:10px" onclick="alert('Demo: here the Razorpay / UPI payment page opens. After payment, the receipt is sent on WhatsApp automatically.')">Pay ₹${s.due.toLocaleString('en-IN')}</button>`;
-  }
+// Scroll reveal + counters
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  e.target.classList.add('in');
+  e.target.querySelectorAll('[data-count]').forEach(countUp);
+  io.unobserve(e.target);
+}), { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i % 4) * 0.08 + 's'; io.observe(el); });
+function countUp(el) {
+  const end = +el.dataset.count, suf = el.dataset.suffix || '', start = end > 1000 ? 1950 : 0, dur = 1600, t0 = performance.now();
+  (function step(t) {
+    const p = Math.min(1, (t - t0) / dur), v = Math.round(start + (end - start) * (1 - Math.pow(1 - p, 3)));
+    el.textContent = v + suf;
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
+}
 
-  function sendEnquiry(e) {
-    e.preventDefault();
-    const v = id => document.getElementById(id).value.trim();
-    const text = `New Admission Enquiry\nParent: ${v('pName')}\nMobile: ${v('pPhone')}\nStudent: ${v('sName')}\nClass: ${v('sClass')}\nMessage: ${v('msg') || '-'}`;
-    document.getElementById('ok').style.display = 'block';
-    // Demo: sends enquiry to the school's WhatsApp. In production it is saved to the admission system and an auto-reply goes to the parent.
-    window.open('https://wa.me/919314296400?text=' + encodeURIComponent(text), '_blank', 'noopener');
-    e.target.reset();
-    return false;
-  }
+// 3D tilt on hover
+if (!touch) document.querySelectorAll('.tilt').forEach(el => {
+  el.addEventListener('mousemove', e => {
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    el.style.transform = `perspective(900px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) translateZ(10px)`;
+  });
+  el.addEventListener('mouseleave', () => el.style.transform = '');
+});
+
+// Phone follows the mouse a little
+const phone = $('phone');
+if (!touch) phone.parentElement.addEventListener('mousemove', e => {
+  const r = phone.parentElement.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5;
+  phone.style.animation = 'none'; phone.style.transform = `rotateY(${x * 40 - 10}deg) rotateX(6deg)`;
+});
+
+// Phone notifications loop
+const notes = [
+  ['✅', '#dcfce7', 'Attendance', 'Aarav marked present at 7:52 AM'],
+  ['📖', '#e0e7ff', 'Homework', 'Maths: Exercise 4.2, Q1–10'],
+  ['💳', '#fef3c7', 'Fee Reminder', 'November fee ₹1,800 due on 10 Nov'],
+  ['🚌', '#ccfbf1', 'Bus Update', 'Bus 4 arriving in 5 minutes'],
+  ['🏅', '#fce7f3', 'Result Published', 'Unit Test 2: 92% · Grade A1'],
+  ['📢', '#e0f2fe', 'Notice', 'PTM on Saturday, 10 AM']
+];
+let ni = 0;
+function pushNote() {
+  const box = $('notifs');
+  const [ic, bg, t, d] = notes[ni++ % notes.length];
+  const el = document.createElement('div'); el.className = 'notif';
+  el.innerHTML = `<div class="ni" style="background:${bg}">${ic}</div><div><b>${t}</b>${d}</div>`;
+  box.prepend(el);
+  while (box.children.length > 5) box.lastChild.remove();
+}
+for (let k = 0; k < 4; k++) setTimeout(pushNote, k * 350);
+setInterval(pushNote, 2600);
+
+// 3D carousel
+const photos = [
+  ['photo-1509062522246-3755977927d7', 'Smart Classrooms'], ['photo-1427504494785-3a9ca7044f45', 'Group Learning'],
+  ['photo-1546410531-bb4caa6b424d', 'Sports Day'], ['photo-1588072432836-e10032774350', 'Young Learners'],
+  ['photo-1580582932707-520aed937b7b', 'Our Campus'], ['photo-1532094349884-543bc11b234d', 'Science Lab'],
+  ['photo-1513258496099-48168024aec0', 'Library'], ['photo-1497633762265-9d179a990aa6', 'Reading Time']
+];
+const car = $('carousel');
+function buildCarousel() {
+  const w = car.offsetWidth, n = photos.length, radius = Math.round(w / 2 / Math.tan(Math.PI / n)) + 30;
+  car.innerHTML = photos.map(([id, cap], i) =>
+    `<figure style="transform: rotateY(${i * 360 / n}deg) translateZ(${radius}px)"><img src="https://images.unsplash.com/${id}?w=600&q=70" alt="${cap}" loading="lazy" onerror="this.remove()"><figcaption>${cap}</figcaption></figure>`).join('');
+}
+buildCarousel(); addEventListener('resize', buildCarousel);
+
+// Testimonials
+const qs = document.querySelectorAll('.q'), qd = $('qdots'); let qi = 0;
+qs.forEach((_, i) => { const b = document.createElement('button'); b.setAttribute('aria-label', 'Testimonial ' + (i + 1)); b.onclick = () => showQ(i); qd.appendChild(b); });
+function showQ(i) { qi = i; qs.forEach((q, k) => q.classList.toggle('on', k === i)); [...qd.children].forEach((b, k) => b.classList.toggle('on', k === i)); }
+showQ(0); setInterval(() => showQ((qi + 1) % qs.length), 5000);
+
+// Fee check (demo data)
+const demoFees = {
+  A101: { name: 'Aarav Sharma', cls: '6', due: 1800, month: 'November' },
+  A102: { name: 'Priya Meena', cls: '9', due: 0, month: 'November' },
+  A103: { name: 'Rohit Saini', cls: '3', due: 3600, month: 'October + November' }
+};
+function checkFee() {
+  const id = $('admNo').value.trim().toUpperCase(), out = $('feeResult'), s = demoFees[id];
+  if (!s) { out.innerHTML = 'No student found. Try <b>A101</b>, <b>A102</b> or <b>A103</b>.'; return; }
+  if (s.due === 0) { out.innerHTML = `✅ <b>${esc(s.name)}</b> (Class ${esc(s.cls)})<br>No fees pending. Thank you!`; return; }
+  out.innerHTML = `<b>${esc(s.name)}</b> · Class ${esc(s.cls)}<br>Pending: <b style="font-size:1.3rem">₹${s.due.toLocaleString('en-IN')}</b> (${esc(s.month)})<br>
+    <button class="btn btn-gold sm" style="margin-top:12px" onclick="payDemo(this, ${s.due})">Pay ₹${s.due.toLocaleString('en-IN')} Securely</button>`;
+}
+function payDemo(btn, amt) {
+  btn.textContent = 'Processing...'; btn.disabled = true;
+  setTimeout(() => {
+    $('feeResult').innerHTML = `✅ <b>Payment successful (demo)</b><br>₹${amt.toLocaleString('en-IN')} received. Receipt #JVM${Math.floor(1000 + Math.random() * 9000)} has been sent to the parent's WhatsApp.`;
+  }, 1200);
+}
+$('admNo').addEventListener('keydown', e => { if (e.key === 'Enter') checkFee(); });
+
+// Admission enquiry
+function sendEnquiry(e) {
+  e.preventDefault();
+  const v = id => $(id).value.trim();
+  const text = `New Admission Enquiry\nParent: ${v('pName')}\nMobile: ${v('pPhone')}\nStudent: ${v('sName')}\nClass: ${v('sClass')}\nMessage: ${v('msg') || '-'}`;
+  $('ok').style.display = 'block';
+  window.open('https://wa.me/919314296400?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  e.target.reset();
+  return false;
+}
+
+// Chat assistant (demo, rule-based)
+const bot = $('bot'), msgs = $('msgs');
+const answers = [
+  [/fee|pay|due|receipt/i, 'You can pay fees online on this website using UPI, card or net banking. Enter your child\'s admission number in the "Pay School Fees Online" section.\n\nMonthly fees are due by the 10th. You will also get a reminder on WhatsApp.'],
+  [/admission|apply|seat|enrol|join/i, 'Admissions for 2027–28 are open for Nursery to Class 12. 🎓\n\n1. Fill the enquiry form on this page\n2. Visit the campus\n3. Upload documents\n4. Pay the admission fee online'],
+  [/document|certificate|\btc\b|aadhaar|birth/i, 'Documents needed for admission:\n• Birth certificate\n• Aadhaar card (student and parent)\n• Previous class marksheet\n• Transfer Certificate (Class 2 onwards)\n• 4 passport-size photos'],
+  [/time|timing|hour|open|close/i, 'School timings (sample):\n🕗 Summer: 7:30 AM – 1:30 PM\n🕗 Winter: 8:30 AM – 2:30 PM\n\nOffice: Mon–Sat, 8 AM – 3 PM'],
+  [/bus|transport|van|pickup/i, 'Yes, we have safe bus transport covering Jhotwara and nearby areas. 🚌 Buses have GPS tracking and parents get pickup and drop alerts.'],
+  [/result|marks|report/i, 'Results and report cards are shared on the parent app and WhatsApp as soon as they are published.'],
+  [/contact|phone|call|address|where|location/i, '📍 396, Udyog Nagar, Jagriti Marg, Niwaru Road, Jhotwara, Jaipur – 302012\n📞 +91 93142 96400\n✉️ jagritigroup.jpr@gmail.com'],
+  [/board|rbse|cbse|syllabus|curriculum/i, 'We follow the RBSE (Rajasthan Board) curriculum, and the school is recognised by the Government of Rajasthan.'],
+  [/\b(hi|hello|hey|namaste)\b/i, 'Hello! 👋 How can I help you today?']
+];
+function say(text, who) {
+  const el = document.createElement('div'); el.className = 'm ' + who; el.textContent = text;
+  msgs.appendChild(el); msgs.scrollTop = msgs.scrollHeight;
+}
+function reply(q) {
+  say(q, 'u');
+  const hit = answers.find(([re]) => re.test(q));
+  setTimeout(() => say(hit ? hit[1] : 'Thanks for asking! Our office team will reply to you on WhatsApp shortly. You can also call +91 93142 96400.', 'b'), 500);
+}
+['Admission', 'Fees', 'Timings', 'Transport', 'Documents', 'Contact'].forEach(t => {
+  const b = document.createElement('button'); b.textContent = t; b.onclick = () => reply(t); $('quick').appendChild(b);
+});
+$('botBtn').onclick = () => {
+  bot.classList.toggle('on');
+  if (!msgs.children.length) say('Hi! 👋 I\'m the JVM Assistant. Ask me about admissions, fees, timings or transport.', 'b');
+};
+$('botClose').onclick = () => bot.classList.remove('on');
+$('botForm').onsubmit = e => { e.preventDefault(); const v = $('botIn').value.trim(); if (v) { reply(v); $('botIn').value = ''; } };
 </script>
 </body>
 </html>

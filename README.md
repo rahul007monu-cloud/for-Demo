@@ -6,7 +6,7 @@ Sab plain HTML files hain: koi install nahi, double-click karke browser mein khu
 | File | Kya hai | Kaise use karein |
 |---|---|---|
 | `pitch-deck.html` | 10 slides ka Hindi pitch deck | ◀ ▶ arrow keys / swipe se slide badlo. 🖨️ button → "Save as PDF" se PDF bana lo |
-| `demo-website/index.html` | School ki nayi website ka demo | Admission form, online fee check (try `A101`, `A102`, `A103`), WhatsApp button, Google Map |
+| `demo-website/index.html` | School ki nayi website ka 3D demo (poora English mein) | 3D hero (Three.js), tilt/flip cards, 3D gallery, parent app mockup, 16 automation services ka section, AI chat assistant (🤖 button), online fee check (try `A101`, `A102`, `A103`), admission form, WhatsApp button, Google Map |
 | `fee-system/index.html` | Fee Manager prototype | Dashboard, students, payment record, auto receipt, WhatsApp reminder, CSV export |
 
 ## Meeting mein demo ka order
@@ -19,6 +19,7 @@ Sab plain HTML files hain: koi install nahi, double-click karke browser mein khu
 - `fee-system` → **Settings** mein school ka asli UPI ID daalo.
 - `demo-website` mein Unsplash ki sample photos hain; school ki asli photos se badalni hain.
 - "Nursery–12" aur facilities (labs, transport) school se confirm karke theek karo.
+- Website par testimonials, notices, school timings (chat assistant mein) aur streams (Science/Commerce/Arts) sample hain. School se confirm karo.
 - Pitch deck slide 10 par apna naam / phone bharo.
 
 ## Demo aur real version mein farq
