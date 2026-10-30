@@ -5,12 +5,12 @@ Sab plain HTML files hain: koi install nahi, double-click karke browser mein khu
 
 | File | Kya hai | Kaise use karein |
 |---|---|---|
-| `pitch-deck.html` | 10 slides ka Hindi pitch deck | ◀ ▶ arrow keys / swipe se slide badlo. 🖨️ button → "Save as PDF" se PDF bana lo |
+| `pitch-deck.html` | 11 slides ka English proposal (16 automation services ki list ke saath) | ◀ ▶ arrow keys / swipe se slide badlo. 🖨️ button → "Save as PDF" se PDF bana lo |
 | `demo-website/index.html` | School ki nayi website ka 3D demo (poora English mein) | 3D hero (Three.js), tilt/flip cards, 3D gallery, parent app mockup, 16 automation services ka section, AI chat assistant (🤖 button), online fee check (try `A101`, `A102`, `A103`), admission form, WhatsApp button, Google Map |
 | `fee-system/index.html` | Fee Manager prototype | Dashboard, students, payment record, auto receipt, WhatsApp reminder, CSV export |
 
 ## Meeting mein demo ka order
-1. **Pitch deck** dikhao (5 min). Slide 9 par apni pricing bhar lo (`₹____` waali jagah).
+1. **Pitch deck** dikhao (5 min). Slide 10 par apni pricing bhar lo (`₹____` waali jagah).
 2. **Fee Manager** kholo → Students → kisi bachche par **📲 Remind** dabao → WhatsApp par Hindi reminder khulega.
    Phir **₹ Pay** → payment save → receipt bani → **Send on WhatsApp**.
 3. **Website** dikhao: mobile par kholo, admission form bharo → school ke WhatsApp par enquiry jaati hai.
@@ -20,7 +20,7 @@ Sab plain HTML files hain: koi install nahi, double-click karke browser mein khu
 - `demo-website` mein Unsplash ki sample photos hain; school ki asli photos se badalni hain.
 - "Nursery–12" aur facilities (labs, transport) school se confirm karke theek karo.
 - Website par testimonials, notices, school timings (chat assistant mein) aur streams (Science/Commerce/Arts) sample hain. School se confirm karo.
-- Pitch deck slide 10 par apna naam / phone bharo.
+- Pitch deck slide 11 par apna naam / phone bharo.
 
 ## Demo aur real version mein farq
 - Demo mein data sirf usi browser mein save hota hai (localStorage). Real version mein database (Supabase/Firebase) hoga.
